@@ -1,0 +1,8881 @@
+/* Dinner by Destiny v1.0 */
+@font-face {
+    font-family: "Milk Moustachio";
+    src: url("assets/Bunnycartoon.otf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "Aston Script";
+    src: url("assets/finalfont.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+:root{
+  --bg:#050816;
+  --bg2:#0b1026;
+  --glass:rgba(255,255,255,.08);
+  --glass-border:rgba(255,255,255,.14);
+  --gold:#f5df9b;
+  --gold-dark:#d8b45a;
+  --text:#f5f7ff;
+  --muted:#c9d1e8;
+  --radius:28px;
+  --shadow:0 20px 60px rgba(0,0,0,.45);
+  --transition:.35s ease;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+
+html,body{
+  width:100%;
+  min-height:100%;
+  font-family:Poppins,sans-serif;
+  color:var(--text);
+  background:radial-gradient(circle at top,var(--bg2),var(--bg));
+  overflow-x:hidden;
+}
+
+#glassParticles{
+    position:fixed;
+    inset:0;
+    overflow:hidden;
+    pointer-events:none;
+    z-index:-2;
+}
+
+.glass-particle{
+    position:absolute;
+    width:8px;
+    height:8px;
+    border-radius:2px;
+    backdrop-filter:blur(5px);
+    -webkit-backdrop-filter:blur(5px);
+    border:1px solid rgba(255,255,255,.12);
+    
+background:
+linear-gradient(
+135deg,
+rgba(255,255,255,.75),
+rgba(255,220,235,.45),
+rgba(255,230,180,.42),
+rgba(205,225,255,.42)
+);
+
+border:1px solid rgba(255,255,255,.35);
+
+box-shadow:
+0 0 10px rgba(255,220,170,.35),
+0 0 18px rgba(210,225,255,.22);
+
+    opacity:.45;
+
+    transform:rotate(45deg);
+
+    will-change:transform;
+    transform-style: preserve-3d;
+transform-origin:center center;
+
+    animation: prismGlow 5s ease-in-out infinite;
+
+}
+
+body{
+    isolation:isolate;
+}
+
+#app{
+  position:relative;
+  z-index:1;
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:24px;
+}
+
+.screen{
+  display:none;
+  opacity:0;
+  width:100%;
+  justify-content:center;
+  align-items:center;
+
+  position:relative;
+  z-index:2;
+}
+
+.screen.active{
+display:flex;
+opacity:1;
+animation:fadeUp .6s ease;
+}
+/* ============================
+   GLASS CARD — MAIN
+============================ */
+
+.glass-card{
+    position:relative;
+    z-index:5;
+
+    width:min(900px,94vw);
+    padding:42px 28px;
+
+    border-radius:var(--radius);
+
+    /*
+       Very transparent glass.
+       The background should tint the scene,
+       not cover it.
+    */
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.055),
+            rgba(255,255,255,.018) 50%,
+            rgba(255,255,255,.035)
+        );
+
+    border:1px solid rgba(255,255,255,.14);
+
+    /*
+       Moderate blur keeps the particles visible
+       while still giving the card a glass surface.
+    */
+    backdrop-filter:
+        blur(16px)
+        saturate(115%);
+
+    -webkit-backdrop-filter:
+        blur(16px)
+        saturate(115%);
+
+    box-shadow:
+        inset 0 1px 1px rgba(255,255,255,.14),
+        inset 0 -1px 1px rgba(255,255,255,.035),
+        0 20px 60px rgba(0,0,0,.42),
+        0 0 30px rgba(210,220,255,.04);
+
+    overflow:hidden;
+
+    transform:translateZ(0);
+
+    text-align:center;
+}
+
+
+/* ============================
+   GLASS INNER LIGHT
+============================ */
+
+.glass-card::before{
+    content:"";
+
+    position:absolute;
+    inset:0;
+
+    border-radius:inherit;
+
+    background:
+        linear-gradient(
+            120deg,
+            rgba(255,255,255,.075),
+            transparent 24%,
+            transparent 72%,
+            rgba(255,255,255,.025)
+        );
+
+    pointer-events:none;
+
+    /*
+       Keep it behind the card content,
+       but don't make it disappear completely.
+    */
+    z-index:-1;
+}
+
+
+/* ============================
+   SUBTLE GLASS REFLECTION
+============================ */
+
+.glass-card::after{
+    content:"";
+
+    position:absolute;
+
+    top:-60%;
+    left:-35%;
+
+    width:45%;
+    height:220%;
+
+    background:
+        linear-gradient(
+            110deg,
+            transparent 35%,
+            rgba(255,255,255,.045) 50%,
+            transparent 65%
+        );
+
+    transform:rotate(12deg);
+
+    pointer-events:none;
+
+    opacity:.45;
+}
+
+
+/* ============================
+   GLASS CARD VARIATIONS
+============================ */
+
+
+/* HERO — slightly brighter first impression */
+
+#hero .glass-card{
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.065),
+            rgba(255,255,255,.018) 48%,
+            rgba(245,223,155,.025)
+        );
+
+    border-color:rgba(255,255,255,.16);
+
+    box-shadow:
+        inset 0 1px 1px rgba(255,255,255,.16),
+        0 20px 65px rgba(0,0,0,.42),
+        0 0 35px rgba(245,223,155,.035);
+}
+
+
+/* PACT — slightly deeper and intimate */
+
+#pact .glass-card{
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.055),
+            rgba(255,255,255,.018)
+        );
+
+    border-color:rgba(255,255,255,.13);
+}
+
+
+/* QUIZ — clearest for reading */
+
+#quiz .glass-card{
+    background:
+        rgba(255,255,255,.042);
+
+    border-color:rgba(255,255,255,.13);
+
+    box-shadow:
+        inset 0 1px 1px rgba(255,255,255,.13),
+        0 18px 55px rgba(0,0,0,.40);
+}
+
+
+/* RESULT — subtle golden atmosphere */
+
+#result .glass-card{
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.065),
+            rgba(255,255,255,.018) 50%,
+            rgba(245,223,155,.035)
+        );
+
+    border-color:rgba(245,223,155,.16);
+
+    box-shadow:
+        inset 0 1px 1px rgba(255,255,255,.16),
+        0 20px 65px rgba(0,0,0,.44),
+        0 0 40px rgba(245,223,155,.045);
+}
+
+
+/* LETTER / ENVELOPE — soft and warm */
+
+#envelope .glass-card,
+#letter .glass-card{
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.055),
+            rgba(255,255,255,.018)
+        );
+
+    border-color:rgba(255,220,235,.13);
+}
+
+
+/* MEMORIES — most transparent */
+
+#memory .glass-card{
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.045),
+            rgba(255,255,255,.015)
+        );
+
+    border-color:rgba(255,255,255,.11);
+
+    box-shadow:
+        inset 0 1px 1px rgba(255,255,255,.12),
+        0 20px 60px rgba(0,0,0,.40);
+}
+
+
+/* ENDING — quiet and elegant */
+
+#ending .glass-card{
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.05),
+            rgba(255,255,255,.017)
+        );
+
+    border-color:rgba(245,223,155,.12);
+
+    box-shadow:
+        inset 0 1px 1px rgba(255,255,255,.14),
+        0 20px 65px rgba(0,0,0,.42),
+        0 0 35px rgba(245,223,155,.035);
+}
+
+/* ============================
+   Preserve Card Alignment
+============================ */
+
+.glass-card{
+    text-align:center;
+}
+
+.section-label{
+  color:var(--gold);
+  letter-spacing:3px;
+  text-transform:uppercase;
+  font-size:.82rem;
+  margin-bottom:18px;
+}
+
+#title{
+  font-family:"Cormorant Garamond",serif;
+  font-size:clamp(3rem,8vw,5.8rem);
+  color:var(--gold);
+  margin-bottom:20px;
+}
+
+#title span{display:block}
+
+#subtitle,.body-text,#restaurantDescription,#letterContent{
+  line-height:1.9;
+  color:var(--muted);
+}
+
+button{
+
+    margin-top:28px;
+    padding:15px 32px;
+
+    cursor:pointer;
+
+    position:relative;
+    overflow:hidden;
+
+    border-radius:999px;
+
+    color:#ffffff;
+
+text-shadow:
+0 0 10px rgba(255,255,255,.45),
+0 0 20px rgba(255,215,230,.18);
+
+    font-size:1rem;
+    font-weight:600;
+    letter-spacing:.5px;
+
+    border:1.5px solid rgba(255,215,230,.65);
+
+background:
+
+radial-gradient(
+circle at 22% 18%,
+rgba(255,255,255,.78),
+transparent 28%
+),
+
+radial-gradient(
+circle at 82% 80%,
+rgba(255,205,225,.36),
+transparent 42%
+),
+
+linear-gradient(
+125deg,
+
+rgba(255,110,145,.46) 0%,
+
+rgba(255,180,210,.42) 22%,
+
+rgba(255,228,180,.40) 46%,
+
+rgba(232,218,255,.38) 68%,
+
+rgba(175,210,255,.30) 88%,
+
+rgba(255,145,185,.40) 100%
+
+);
+
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+
+box-shadow:
+
+inset 0 2px 2px rgba(255,255,255,.50),
+
+inset 0 -4px 14px rgba(255,185,215,.18),
+
+0 0 14px rgba(255,150,190,.20),
+
+0 0 30px rgba(255,220,170,.14),
+
+0 0 40px rgba(180,210,255,.10),
+
+0 10px 30px rgba(0,0,0,.32);
+
+    transition:
+        transform .35s ease,
+        box-shadow .35s ease,
+        border-color .35s ease,
+        background .35s ease;
+
+background-size:250% 250%;
+
+animation:
+buttonGradient 14s ease-in-out infinite;
+button{
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
+}
+}
+
+button:hover{
+
+    transform:
+        translateY(-3px)
+        scale(1.02);
+
+    border-color:
+        rgba(255,220,190,.55);
+
+    background:
+
+radial-gradient(
+circle at 22% 18%,
+rgba(255,255,255,.82),
+transparent 28%
+),
+
+radial-gradient(
+circle at 82% 80%,
+rgba(255,205,225,.45),
+transparent 42%
+),
+
+linear-gradient(
+125deg,
+
+rgba(255,120,150,.55) 0%,
+
+rgba(255,185,220,.50) 22%,
+
+rgba(255,232,185,.48) 46%,
+
+rgba(232,220,255,.46) 68%,
+
+rgba(175,215,255,.40) 88%,
+
+rgba(255,150,190,.50) 100%
+);
+
+box-shadow:
+
+inset 0 2px 2px rgba(255,255,255,.62),
+
+inset 0 -6px 18px rgba(255,190,220,.30),
+
+0 0 24px rgba(255,170,205,.36),
+
+0 0 46px rgba(255,215,170,.24),
+
+0 0 52px rgba(170,205,255,.18),
+
+0 14px 36px rgba(0,0,0,.35);
+
+button:focus,
+button:focus-visible{
+    outline: none;
+    box-shadow:
+        inset 0 2px 2px rgba(255,255,255,.50),
+        inset 0 -4px 14px rgba(255,185,215,.18),
+        0 0 14px rgba(255,150,190,.20),
+        0 0 30px rgba(255,220,170,.14),
+        0 0 40px rgba(180,210,255,.10),
+        0 10px 30px rgba(0,0,0,.32);
+}
+
+}
+
+button::after{
+
+content:"";
+
+position:absolute;
+
+top:-120%;
+
+left:-150%;
+
+width:90%;
+
+height:340%;
+
+background:
+
+linear-gradient(
+
+115deg,
+
+transparent 30%,
+
+rgba(255,255,255,.08) 42%,
+
+rgba(255,255,255,.65) 50%,
+
+rgba(255,230,245,.28) 54%,
+
+transparent 68%
+
+);
+
+transform:rotate(10deg);
+
+pointer-events:none;
+
+animation:buttonSweep 7.5s ease-in-out infinite;
+
+}
+
+button:hover::after{
+
+    left:40%;
+
+}
+.progress-track{
+  width:100%;
+  height:10px;
+  background:rgba(255,255,255,.1);
+  border-radius:999px;
+  overflow:hidden;
+}
+button:active{
+
+    transform:
+        scale(.98);
+
+    transition:.08s;
+
+}
+
+button::before{
+mix-blend-mode:screen;
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    border-radius:inherit;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255,255,255,.22),
+            transparent 55%
+        );
+
+    pointer-events:none;
+
+}
+
+#progressBar{
+  width:0;
+  height:100%;
+  background:linear-gradient(90deg,var(--gold),#fff);
+  transition:width .4s ease;
+}
+
+#options{
+  display:grid;
+  gap:14px;
+  margin-top:25px;
+}
+
+.option{
+  width:100%;
+  text-align:left;
+}
+
+.loader{
+  width:64px;
+  height:64px;
+  margin:0 auto 20px;
+  border-radius:50%;
+  border:4px solid rgba(255,255,255,.15);
+  border-top-color:var(--gold);
+  animation:spin 1s linear infinite;
+}
+
+#musicBtn{
+  position:fixed;
+  top:18px;
+  right:18px;
+  width:52px;
+  height:52px;
+  border-radius:50%;
+  z-index:10;
+  margin:0;
+}
+
+#memoryPhoto{
+  display:block;
+  max-width:220px;
+  width:100%;
+  margin:0 auto 25px;
+  border-radius:18px;
+}
+
+#letterContent{
+  text-align:left;
+  white-space:pre-wrap;
+}
+
+@keyframes spin{
+  to{transform:rotate(360deg);}
+}
+
+@keyframes fadeUp{
+from{
+opacity:0;
+transform:translateY(16px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+@media (max-width:768px){
+  .glass-card{
+    padding:30px 20px;
+    width:95vw;
+  }
+
+  button{
+    width:100%;
+  }
+
+  #title{
+    font-size:3.2rem;
+  }
+
+  #musicBtn{
+    width:46px;
+    height:46px;
+  }
+}
+.option-button.selected{
+
+    transform:scale(1.03);
+
+    box-shadow:0 0 18px rgba(255,255,255,0.35);
+
+    opacity:0.9;
+
+    transition:0.3s;
+}
+
+#letterContent{
+    text-align: center;
+}
+#letterContent p{
+    margin-bottom: 22px;
+    line-height: 1.8;
+}
+.memory-gallery{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    justify-content:center;
+
+    gap:16px;
+
+    margin-top:25px;
+
+}
+
+.memory-gallery img{
+
+    width:140px;
+
+    border-radius:16px;
+
+    opacity:0;
+
+    transform:translateY(20px);
+
+    transition:all 0.8s ease;
+
+    box-shadow:0 8px 20px rgba(0,0,0,.25);
+
+}
+
+.memory-gallery img.show{
+
+    opacity:1;
+
+    transform:translateY(0);
+}
+.endingQuote{
+
+    margin-top:25px;
+
+    font-style:italic;
+
+    opacity:.8;
+
+}
+
+.endingSignature{
+
+    margin-top:35px;
+
+    font-size:.95rem;
+
+    opacity:.9;
+
+}
+/* ============================
+   Destiny Reveal
+============================ */
+
+#restaurantReveal{
+
+    position:relative;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    min-height:90px;
+
+    margin:25px 0;
+
+}
+
+#restaurantBlur{
+overflow: hidden;
+    position:absolute;
+
+    width:300px;
+
+    min-height:130px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    text-align:center;
+
+    padding:25px;
+
+    color:#fff9ec;
+
+    font-size:1rem;
+
+    line-height:1.7;
+
+    border-radius:999px;
+
+    z-index:2;
+
+    backdrop-filter:blur(25px);
+
+    background:
+    radial-gradient(circle,
+    rgba(255,255,255,.35) 0%,
+    rgba(255,230,170,.22) 45%,
+    rgba(170,210,255,.12) 75%,
+    transparent 100%);
+
+    box-shadow:
+    0 0 35px rgba(255,220,120,.25),
+    0 0 70px rgba(180,220,255,.12);
+
+    transition:
+    opacity 1s ease,
+    transform .8s ease,
+    filter .8s ease;
+
+}
+
+#restaurantBlur::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:-18px;
+
+    border-radius:999px;
+
+    background:
+    radial-gradient(circle,
+    rgba(255,255,255,.18),
+    transparent 70%);
+
+    filter:blur(18px);
+
+    z-index:-1;
+
+}
+
+#restaurantName{
+    font-family: "Cormorant Garamond", serif;
+font-weight: 600;
+    font-size:2.5rem;
+
+    letter-spacing:2px;
+
+    text-align:center;
+
+    opacity:0;
+
+    transform:translateY(12px);
+
+    transition:
+        opacity 1.2s ease,
+        transform 1.2s ease;
+
+}
+/* ============================
+   Fade Up Animation
+============================ */
+
+.fade-up{
+
+    opacity:0;
+
+    transform:translateY(15px);
+
+    transition:
+        opacity 0.8s ease,
+        transform 0.8s ease;
+
+}
+
+.fade-up.show{
+
+    opacity:1;
+    transform:translateY(0);
+}
+
+/* ============================
+   Restaurant Glow
+============================ */
+.restaurant-glow{
+    animation:restaurantGlow 1s ease;
+
+}
+@keyframes restaurantGlow{
+    0%{
+        text-shadow:
+        0 0 0 rgba(255,215,120,0);
+    }
+    50%{
+        text-shadow:
+        0 0 18px rgba(255,215,120,0.9),
+        0 0 35px rgba(255,215,120,0.6);
+    }
+    100%{
+        text-shadow:
+        0 0 0 rgba(255,215,120,0);
+    }
+}
+
+/* ============================
+   Intro Transition
+============================ */
+#introTransition{
+
+    position:fixed;
+
+    inset:0;
+
+    width:100vw;
+
+    height:100vh;
+
+    background:#000;
+
+    display:none;
+
+    justify-content:center;
+
+    align-items:center;
+
+    z-index:999;
+}
+
+.intro-text{
+
+    color:white;
+
+    font-size:1.5rem;
+
+    text-align:center;
+
+    max-width:650px;
+
+    padding:30px;
+
+    margin:auto;
+
+    line-height:1.7;
+
+    letter-spacing:1px;
+
+    opacity:0;
+
+    transform:translateY(12px);
+
+    transition:
+        opacity 1.2s ease,
+        transform 1.2s ease;
+
+}
+
+.intro-text.show{
+
+    opacity:1;
+
+    transform:translateY(0);
+
+}
+#introTransition.active{
+
+    display:flex;
+
+}
+
+/* ============================
+   Cloud Reveal Animation
+============================ */
+
+.cloud-reveal{
+
+    animation:cloudReveal 1.8s forwards;
+
+}
+
+@keyframes cloudReveal{
+
+    0%{
+        transform:scale(1);
+        filter:brightness(1);
+        opacity:1;
+    }
+
+    20%{
+        transform:scale(1.04);
+        filter:brightness(1.8);
+        opacity:1;
+    }
+
+    45%{
+        transform:scale(1.02);
+        filter:brightness(1);
+        opacity:1;
+    }
+
+    70%{
+    transform:scale(1.08);
+    filter:blur(12px);
+    opacity:.6;
+    color:rgba(255,255,255,.4);
+}
+
+100%{
+    transform:scale(1.18);
+    filter:blur(22px);
+    opacity:0;
+    color:transparent;
+}
+}
+#restaurantBlur{
+    animation:cloudFloat 4s ease-in-out infinite;
+}
+@keyframes cloudFloat{
+    0%{
+        transform:translateY(0px) scale(1);
+    }
+    50%{
+        transform:translateY(-4px) scale(1.02);
+    }
+    100%{
+        transform:translateY(0px) scale(1);
+    }
+}
+@keyframes nameShimmer{
+
+    0%,100%{
+        text-shadow:
+        0 0 10px rgba(255,215,120,.25);
+    }
+
+    50%{
+        text-shadow:
+        0 0 22px rgba(255,215,120,.6);
+    }
+
+}
+
+.restaurant-shimmer{
+
+    animation:nameShimmer 3s ease-in-out infinite;
+
+}
+#cloudText{
+    transition:opacity .8s ease;
+}
+/* ============================
+   Hero Title
+============================ */
+
+#heroTitle{
+    margin-bottom:35px;
+}
+.hero-word{
+    font-family:"Great Vibes", cursive;
+    color:var(--gold);
+    font-size:clamp(3rem,9vw,5.8rem);
+    line-height:1;
+    opacity:0;
+    animation:titleFade 1.2s forwards;
+    text-shadow:
+        0 0 18px rgba(245,223,155,.18);
+}
+/* ============================
+   Memories Title
+============================ */
+
+#memory h2{
+    font-family:"Great Vibes", cursive;
+    color:var(--gold);
+    font-size:clamp(2.8rem,7vw,4.8rem);
+    font-weight:400;
+    line-height:1;
+    margin-bottom:25px;
+
+    text-shadow:
+        0 0 18px rgba(245,223,155,.18);
+}
+
+.dinner{
+    text-align:left;
+    animation-delay:.2s;
+}
+.by{
+    text-align:center;
+    animation-delay:.7s;
+}
+.destiny{
+    text-align:right;
+    animation-delay:1.2s;
+}
+@keyframes titleFade{
+    from{
+        opacity:0;
+        transform:translateY(18px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+#memoryTitle{
+
+    font-family:"Great Vibes", cursive;
+
+    font-size:3.5rem;
+
+    color:var(--gold);
+
+    text-align:center;
+
+    margin:0 0 28px 0;
+
+    font-weight:normal;
+
+    line-height:1.2;
+}
+
+#hero{
+
+    padding-top:40px;
+
+}
+
+#hero .glass-card{
+
+    padding-top:55px;
+    padding-bottom:50px;
+
+}
+
+#heroTitle{
+
+    max-width:520px;
+
+    margin:0 auto 35px auto;
+
+}
+
+.dinner{
+
+    padding-right:90px;
+
+}
+
+.by{
+
+    margin:8px 0;
+
+}
+
+.destiny{
+
+    padding-left:90px;
+
+}
+
+@media(max-width:768px){
+
+    .dinner{
+
+        padding-right:55px;
+
+    }
+
+    .destiny{
+
+        padding-left:55px;
+
+    }
+
+}
+
+/* ============================
+   Photo Stack
+============================ */
+#photoStack{
+    position:relative;
+    width:280px;
+    height:380px;
+    margin:30px auto;
+    overflow:visible;
+}
+
+.memory-photo{
+
+    position:absolute;
+
+    top:0;
+    left:0;
+    inset:0;
+
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+
+    border-radius:22px;
+
+    border:3px solid rgba(245,223,155,.35);
+
+    box-shadow:0 18px 35px rgba(0,0,0,.28);
+
+    filter:brightness(1);
+
+    z-index:3;
+
+    opacity:0;
+
+    transform:
+        scale(.95)
+        translateY(20px);
+
+    transition:
+        opacity .8s ease,
+        transform .8s ease;
+
+}
+.memory-photo:nth-child(2){
+
+    margin-top:3px;
+
+}
+
+.memory-photo:nth-child(3){
+
+    margin-top:6px;
+
+}
+
+.memory-photo.active{
+
+    opacity:1;
+
+    transform:
+        scale(1)
+        translateY(0);
+
+}
+
+/* ============================
+   Photo Lift Animation
+============================ */
+
+.memory-photo{
+
+    transition:
+        transform .65s ease,
+        opacity .65s ease,
+        box-shadow .65s ease;
+
+}
+
+.memory-photo.lift{
+
+    transform:
+        translateY(-25px)
+        scale(.96)
+        rotate(-2deg);
+
+    opacity:0;
+
+}
+
+.memory-photo.active{
+
+    animation:none;
+
+    border-color:rgba(245,223,155,.95);
+
+    box-shadow:
+        0 0 22px rgba(245,223,155,.55),
+        0 10px 28px rgba(0,0,0,.35);
+
+}
+
+/* ============================
+   Photo Hint
+============================ */
+
+#photoHint{
+
+    margin-top:18px;
+
+    color:var(--gold);
+
+    font-size:.95rem;
+
+    opacity:.85;
+
+    animation:hintPulse 2s ease-in-out infinite;
+
+    transition:opacity .8s ease;
+
+}
+
+@keyframes hintPulse{
+
+    0%{
+
+        opacity:.45;
+
+    }
+
+    50%{
+
+        opacity:1;
+
+    }
+
+    100%{
+
+        opacity:.45;
+
+    }
+
+}
+/* ============================
+   Memory Loop Message
+============================ */
+#memoryLoopMessage{
+
+    margin-top:18px;
+
+    color:var(--gold);
+
+    font-size:1rem;
+
+    line-height:1.8;
+
+    opacity:0;
+
+    transform:translateY(10px);
+
+    transition:
+        opacity .8s ease,
+        transform .8s ease;
+
+    pointer-events:none;
+
+}
+
+#memoryLoopMessage.show{
+
+    opacity:1;
+
+    transform:translateY(0);
+
+}
+
+#memoryLoopMessage span{
+
+    font-size:.9rem;
+
+    opacity:.8;
+
+}
+@keyframes buttonGradient{
+
+0%{
+
+background-position:
+0% 40%,
+100% 80%,
+0% 50%;
+
+}
+
+25%{
+
+background-position:
+30% 10%,
+70% 90%,
+35% 40%;
+
+}
+
+50%{
+
+background-position:
+100% 50%,
+30% 30%,
+100% 60%;
+
+}
+
+75%{
+
+background-position:
+70% 90%,
+10% 20%,
+40% 100%;
+
+}
+
+100%{
+
+background-position:
+0% 40%,
+100% 80%,
+0% 50%;
+
+}
+
+}
+@keyframes buttonSweep{
+
+0%{
+
+left:-170%;
+
+opacity:0;
+
+}
+
+8%{
+
+opacity:1;
+
+}
+
+28%{
+
+left:140%;
+
+opacity:1;
+
+}
+
+34%{
+
+opacity:0;
+
+}
+
+100%{
+
+left:140%;
+
+opacity:0;
+
+}
+}
+
+@keyframes prismGlow{
+
+0%,100%{
+opacity:.55;
+filter:brightness(1);
+}
+
+50%{
+opacity:.95;
+filter:brightness(1.35);
+}
+
+}
+@keyframes prismSparkle{
+
+0%,100%{
+filter:brightness(1);
+}
+
+50%{
+filter:brightness(1.8);
+}
+}
+@keyframes prismWhirl{
+
+0%{
+transform:
+rotateX(0deg)
+rotateY(0deg)
+rotateZ(45deg);
+}
+
+25%{
+transform:
+rotateX(160deg)
+rotateY(60deg)
+rotateZ(90deg);
+}
+
+50%{
+transform:
+rotateX(320deg)
+rotateY(180deg)
+rotateZ(180deg);
+}
+
+75%{
+transform:
+rotateX(180deg)
+rotateY(320deg)
+rotateZ(260deg);
+}
+
+100%{
+transform:
+rotateX(360deg)
+rotateY(360deg)
+rotateZ(405deg);
+}
+
+}
+.whirl-x{
+animation:
+prismGlow 5s ease-in-out infinite,
+prismWhirlX 18s linear infinite;
+}
+
+.whirl-y{
+animation:
+prismGlow 5s ease-in-out infinite,
+prismWhirlY 23s linear infinite;
+}
+
+.whirl-xy{
+animation:
+prismGlow 5s ease-in-out infinite,
+prismWhirlXY 26s linear infinite;
+}
+
+.whirl-reverse{
+animation:
+prismGlow 5s ease-in-out infinite,
+prismWhirlReverse 21s linear infinite;
+}
+@keyframes prismWhirlX{
+
+0%{transform:rotateX(0deg) rotateZ(45deg);}
+
+100%{transform:rotateX(360deg) rotateZ(405deg);}
+
+}
+
+@keyframes prismWhirlY{
+
+0%{transform:rotateY(0deg) rotateZ(45deg);}
+
+100%{transform:rotateY(360deg) rotateZ(405deg);}
+
+}
+
+@keyframes prismWhirlXY{
+
+0%{
+transform:
+rotateX(0deg)
+rotateY(0deg)
+rotateZ(45deg);
+}
+
+100%{
+transform:
+rotateX(360deg)
+rotateY(360deg)
+rotateZ(405deg);
+}
+
+}
+
+@keyframes prismWhirlReverse{
+
+0%{
+transform:
+rotateX(360deg)
+rotateY(0deg)
+rotateZ(405deg);
+}
+
+100%{
+transform:
+rotateX(0deg)
+rotateY(360deg)
+rotateZ(45deg);
+}
+
+}
+/* ==========================================
+   PAGE 1 — AGED OFFICIAL DOCUMENT
+========================================== */
+#rules{
+    position:fixed;
+    inset:0;
+    width:100%;
+    height:100%;
+    min-height:100dvh;
+
+    padding:0;
+
+    display:none;
+    justify-content:center;
+    align-items:flex-start;
+
+    overflow-y:auto;
+    overflow-x:hidden;
+
+    background:
+        radial-gradient(
+            ellipse at 18% 12%,
+            rgba(255,235,165,.45),
+            transparent 32%
+        ),
+        radial-gradient(
+            ellipse at 82% 25%,
+            rgba(110,70,25,.18),
+            transparent 38%
+        ),
+        radial-gradient(
+            ellipse at 35% 90%,
+            rgba(120,75,25,.16),
+            transparent 40%
+        ),
+        linear-gradient(
+            135deg,
+            #c7ad68 0%,
+            #d8c27c 25%,
+            #bfa35e 55%,
+            #d2b96d 78%,
+            #aa8b4b 100%
+        );
+
+    background-attachment:fixed;
+    background-size:cover;
+
+    z-index:10000;
+}
+
+/* Active Page 1 */
+
+#rules.active{
+    display:flex;
+    animation:rulesPaperAppear .7s ease;
+}
+
+
+/* ==========================================
+   CRUMPLED / AGED PAPER TEXTURE
+========================================== */
+
+#rules::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+
+    background:
+
+        /* Fine paper fibres */
+        repeating-linear-gradient(
+            0deg,
+            rgba(70,48,18,.035) 0px,
+            rgba(255,245,190,.045) 1px,
+            transparent 3px,
+            rgba(70,48,18,.025) 5px
+        ),
+
+        repeating-linear-gradient(
+            90deg,
+            rgba(70,48,18,.025) 0px,
+            transparent 2px,
+            rgba(255,245,190,.04) 4px
+        ),
+
+        /* Large faded crumple patches */
+        radial-gradient(
+            ellipse at 15% 40%,
+            rgba(95,65,20,.14),
+            transparent 25%
+        ),
+
+        radial-gradient(
+            ellipse at 75% 70%,
+            rgba(255,238,170,.16),
+            transparent 28%
+        ),
+
+        radial-gradient(
+            ellipse at 50% 15%,
+            rgba(85,55,15,.10),
+            transparent 22%
+        );
+
+    opacity:.9;
+
+}
+
+
+/* ==========================================
+   DARK AGED EDGES
+========================================== */
+
+#rules::after{
+    content:"";
+    position:fixed;
+
+    inset:0;
+
+    pointer-events:none;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(65,42,12,.30),
+            transparent 8%,
+            transparent 92%,
+            rgba(65,42,12,.28)
+        ),
+        linear-gradient(
+            0deg,
+            rgba(65,42,12,.30),
+            transparent 8%,
+            transparent 92%,
+            rgba(65,42,12,.24)
+        );
+
+    box-shadow:
+        inset 0 0 90px rgba(65,42,12,.30),
+        inset 0 0 25px rgba(55,38,12,.20);
+
+}
+
+
+/* ==========================================
+   DOCUMENT
+========================================== */
+
+.rules-paper{
+
+    position:relative;
+
+    z-index:2;
+
+    width:min(850px,88vw);
+
+    min-height:88vh;
+
+    padding:48px 55px 40px;
+
+    color:#302414;
+
+    /* Almost transparent so the aged paper texture remains visible */
+    background:transparent;
+
+    border-left:
+        1px solid rgba(75,52,18,.18);
+
+    border-right:
+        1px solid rgba(75,52,18,.18);
+
+    box-shadow:
+        0 0 35px rgba(60,40,10,.12);
+
+    font-family:"Courier New",monospace;
+
+}
+
+
+/* ==========================================
+   OFFICIAL DOCUMENT HEADER
+========================================== */
+
+.rules-header{
+
+    text-align:center;
+
+    padding-bottom:24px;
+
+    border-bottom:
+        2px solid rgba(55,40,15,.55);
+
+}
+
+
+.rules-header span{
+
+    display:block;
+
+    font-size:.68rem;
+
+    font-weight:bold;
+
+    letter-spacing:3px;
+
+    margin-bottom:14px;
+
+    opacity:.72;
+
+}
+
+
+.rules-header h1{
+
+    margin:0;
+
+    font-family:"Courier New",monospace;
+
+    font-size:clamp(1.65rem,4vw,2.7rem);
+
+    font-weight:900;
+
+    letter-spacing:2px;
+
+    text-transform:uppercase;
+
+}
+
+
+.rules-header p{
+
+    margin-top:9px;
+
+    font-size:.78rem;
+
+    letter-spacing:1px;
+
+    opacity:.68;
+
+}
+
+
+/* ==========================================
+   RULE CONTENT
+========================================== */
+
+.rules-content{
+
+    text-align:left;
+
+}
+
+
+.rule-section{
+
+    padding:21px 0;
+
+    border-bottom:
+        1px solid rgba(55,40,15,.30);
+
+}
+
+
+.rule-section h2{
+
+    margin-bottom:11px;
+
+    font-family:"Courier New",monospace;
+
+    font-size:.92rem;
+
+    font-weight:900;
+
+    letter-spacing:1px;
+
+    text-transform:uppercase;
+
+}
+
+
+.rule-section p{
+
+    margin:6px 0;
+
+    font-family:"Courier New",monospace;
+
+    font-size:.82rem;
+
+    line-height:1.7;
+
+}
+
+
+/* Serious-looking warning */
+
+.warning{
+
+    margin-top:14px !important;
+
+    padding:10px 14px;
+
+    border-left:
+        3px solid rgba(95,50,20,.75);
+
+    background:
+        rgba(80,50,15,.08);
+
+    font-weight:bold;
+
+}
+
+
+/* The deliberately dramatic part */
+
+.dramatic{
+
+    text-align:center;
+
+    font-size:1.05rem !important;
+
+    font-weight:900;
+
+    letter-spacing:2px;
+
+    margin-top:18px !important;
+
+}
+
+
+/* ==========================================
+   MOBILE
+========================================== */
+
+@media(max-width:600px){
+
+    #rules{
+
+        align-items:flex-start;
+
+    }
+
+    .rules-paper{
+
+        width:100vw;
+
+        min-height:100vh;
+
+        padding:32px 24px 30px;
+
+    }
+
+    .rules-header h1{
+
+        font-size:1.55rem;
+
+    }
+
+    .rules-header span{
+
+        font-size:.58rem;
+
+        letter-spacing:2px;
+
+    }
+
+    .rule-section{
+
+        padding:17px 0;
+
+    }
+
+    .rule-section p{
+
+        font-size:.76rem;
+
+        line-height:1.65;
+
+    }
+
+}
+/* ============================
+   Rules Agreement
+============================ */
+
+.rules-agreement {
+    margin-top: 28px;
+    text-align: center;
+}
+
+.rules-agreement label {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 10px;
+    max-width: 620px;
+    margin: 0 auto 18px;
+    cursor: pointer;
+    font-family: "Courier New", monospace;
+    font-size: .78rem;
+    line-height: 1.6;
+    text-align: left;
+}
+
+#rulesAgree {
+    width: 18px;
+    height: 18px;
+    margin-top: 2px;
+    flex-shrink: 0;
+    accent-color: #6f5422;
+    cursor: pointer;
+}
+
+#rulesContinueBtn:disabled {
+    opacity: .38;
+    cursor: not-allowed;
+    transform: none;
+    filter: grayscale(.35);
+}
+
+#rulesContinueBtn:not(:disabled) {
+    cursor: pointer;
+}
+
+/* ==========================================
+   V1.1 — RESPONSIVE SCREEN OPTIMISATION
+   Designed for phones first
+========================================== */
+
+
+/* ---------- GENERAL PHONE LAYOUT ---------- */
+
+@media (max-width: 768px){
+
+    #app{
+        width:100%;
+        min-height:100dvh;
+        padding:
+            18px
+            clamp(14px, 4vw, 28px);
+    }
+
+    .screen{
+        width:100%;
+        min-height:calc(100dvh - 36px);
+    }
+
+    .glass-card{
+        width:100%;
+        max-width:680px;
+
+        padding:
+            clamp(28px, 6vw, 42px)
+            clamp(18px, 5vw, 30px);
+
+        border-radius:
+            clamp(20px, 5vw, 28px);
+    }
+
+    /* Keep important content away from screen edges */
+
+    .glass-card > *{
+        max-width:100%;
+    }
+
+    /* Buttons remain comfortably tappable */
+
+    button{
+        min-height:52px;
+        padding:
+            14px
+            clamp(20px, 6vw, 32px);
+    }
+
+    /* Main text */
+
+    #subtitle,
+    .body-text,
+    #restaurantDescription,
+    #letterContent{
+        font-size:clamp(.88rem, 2.8vw, 1rem);
+        line-height:1.8;
+    }
+}
+
+
+/* ==========================================
+   SMALL / NARROW PHONES
+   ~ Realme 11x and similar widths
+========================================== */
+
+@media (max-width: 380px){
+
+    #app{
+        padding:12px;
+    }
+
+    .screen{
+        min-height:calc(100dvh - 24px);
+    }
+
+    .glass-card{
+        padding:26px 16px;
+        border-radius:20px;
+    }
+
+    /* Prevent important headings from becoming
+       unnecessarily huge */
+
+    #title{
+        font-size:clamp(2.7rem, 13vw, 3.4rem);
+    }
+
+    #heroTitle{
+        max-width:100%;
+        margin-bottom:28px;
+    }
+
+    .hero-word{
+        font-size:clamp(2.8rem, 13vw, 4rem);
+    }
+
+    /* Memories title must stay on one line */
+
+    #memory h2,
+    #memoryTitle{
+        font-size:clamp(2rem, 10vw, 3rem);
+        white-space:nowrap;
+        letter-spacing:-.5px;
+    }
+
+    /* Don't let the photo stack dominate
+       the entire narrow screen */
+
+    #photoStack{
+        width:min(250px,78vw);
+        height:min(340px,105vw);
+        margin:24px auto;
+    }
+
+    .memory-gallery img{
+        width:120px;
+    }
+
+    /* Smaller spacing between sections */
+
+    .section-label{
+        font-size:.72rem;
+        letter-spacing:2px;
+        margin-bottom:14px;
+    }
+
+    #options{
+        gap:11px;
+        margin-top:20px;
+    }
+
+    .option{
+        font-size:.88rem;
+    }
+
+    #musicBtn{
+        top:12px;
+        right:12px;
+    }
+}
+
+
+/* ==========================================
+   NORMAL PHONES
+   381px — 480px
+========================================== */
+
+@media (min-width:381px) and (max-width:480px){
+
+    .glass-card{
+        padding:32px 20px;
+    }
+
+    #memory h2,
+    #memoryTitle{
+        font-size:clamp(2.4rem, 9vw, 3.5rem);
+        white-space:nowrap;
+    }
+
+    #photoStack{
+        width:min(270px,76vw);
+        height:min(365px,103vw);
+    }
+
+    #title{
+        font-size:clamp(3rem, 11vw, 4.2rem);
+    }
+
+    .hero-word{
+        font-size:clamp(3rem, 11vw, 4.6rem);
+    }
+}
+
+
+/* ==========================================
+   LARGE PHONES / SMALL TABLETS
+   481px — 768px
+========================================== */
+
+@media (min-width:481px) and (max-width:768px){
+
+    #app{
+        padding:24px;
+    }
+
+    .glass-card{
+        max-width:700px;
+        padding:40px 32px;
+    }
+
+    #photoStack{
+        width:280px;
+        height:380px;
+    }
+
+    #memory h2,
+    #memoryTitle{
+        white-space:nowrap;
+    }
+}
+
+
+/* ==========================================
+   VERY SHORT PHONE SCREENS
+   Prevent vertical overflow where possible
+========================================== */
+
+@media (max-height:700px) and (max-width:768px){
+
+    #app{
+        padding-top:10px;
+        padding-bottom:10px;
+    }
+
+    .glass-card{
+        padding-top:24px;
+        padding-bottom:24px;
+    }
+
+    #hero .glass-card{
+        padding-top:30px;
+        padding-bottom:28px;
+    }
+
+    #heroTitle{
+        margin-bottom:22px;
+    }
+
+    #photoStack{
+        margin-top:18px;
+        margin-bottom:18px;
+    }
+}
+
+
+/* ==========================================
+   MODERN PHONE VIEWPORT SUPPORT
+========================================== */
+
+@supports (height: 100dvh){
+
+    #app{
+        min-height:100dvh;
+    }
+
+    .screen{
+        min-height:100dvh;
+    }
+}
+/* ==========================================
+   V1.1 — FINAL RESPONSIVE SAFETY PASS
+========================================== */
+
+
+/* ------------------------------------------
+   1. PREVENT HORIZONTAL OVERFLOW
+------------------------------------------ */
+
+html,
+body{
+    max-width:100%;
+    overflow-x:hidden;
+}
+
+.screen,
+.glass-card{
+    max-width:100%;
+}
+
+
+/* ------------------------------------------
+   2. SAFE TEXT WRAPPING
+------------------------------------------ */
+
+#question,
+#narrator,
+#subtitle,
+.body-text,
+#restaurantDescription,
+#destinyMessage,
+#personalitySummary,
+#confidenceText,
+#cloudText,
+#letterContent{
+    overflow-wrap:anywhere;
+    word-break:normal;
+}
+
+
+/* ------------------------------------------
+   3. IMPORTANT HEADINGS
+   Scale rather than unexpectedly overflow
+------------------------------------------ */
+
+#title,
+#heroTitle,
+#memoryTitle,
+#memory h2,
+.hero-word,
+#restaurantName{
+    max-width:100%;
+}
+
+
+/* ------------------------------------------
+   4. QUIZ OPTIONS
+   Never allow long answers to break layout
+------------------------------------------ */
+
+#options{
+    width:100%;
+    max-width:100%;
+}
+
+#options button,
+.option-button{
+    width:100%;
+    min-width:0;
+    white-space:normal;
+    overflow-wrap:anywhere;
+}
+
+
+/* ------------------------------------------
+   5. RESULT SCREEN
+------------------------------------------ */
+
+#restaurantReveal{
+    width:100%;
+    max-width:100%;
+}
+
+#restaurantBlur{
+    max-width:90vw;
+}
+
+#restaurantName{
+    overflow-wrap:anywhere;
+}
+
+
+/* ------------------------------------------
+   6. MEMORY SCREEN
+------------------------------------------ */
+
+#photoStack{
+    max-width:90vw;
+}
+
+.memory-photo{
+    max-width:100%;
+}
+
+.memory-gallery{
+    max-width:100%;
+}
+
+.memory-gallery img{
+    max-width:100%;
+    height:auto;
+}
+
+
+/* ------------------------------------------
+   7. LETTER SCREEN
+------------------------------------------ */
+
+#letterContent{
+    width:100%;
+    max-width:100%;
+}
+
+#letterContent p{
+    max-width:100%;
+}
+
+
+/* ------------------------------------------
+   8. SHORT SCREENS
+   Useful when Android browser UI reduces
+   available vertical space
+------------------------------------------ */
+
+@media (max-height:650px) and (max-width:768px){
+
+    #app{
+        align-items:flex-start;
+        padding-top:12px;
+        padding-bottom:12px;
+    }
+
+    .screen{
+        align-items:flex-start;
+    }
+
+    .glass-card{
+        margin-top:8px;
+        margin-bottom:8px;
+    }
+
+    #hero .glass-card{
+        padding-top:28px;
+        padding-bottom:26px;
+    }
+
+    #photoStack{
+        transform:scale(.88);
+        transform-origin:center top;
+        margin-bottom:-30px;
+    }
+}
+
+
+/* ------------------------------------------
+   9. LANDSCAPE PHONES
+------------------------------------------ */
+
+@media (orientation:landscape)
+       and (max-height:500px)
+       and (max-width:900px){
+
+    #app{
+        align-items:flex-start;
+        padding:12px 20px;
+    }
+
+    .screen{
+        align-items:flex-start;
+    }
+
+    .glass-card{
+        max-width:850px;
+        padding:24px 28px;
+    }
+
+    #title{
+        font-size:clamp(2.5rem,8vw,4rem);
+    }
+
+    .hero-word{
+        font-size:clamp(2.5rem,8vw,4rem);
+    }
+
+    #photoStack{
+        width:220px;
+        height:300px;
+        margin-top:15px;
+    }
+
+    #memory h2,
+    #memoryTitle{
+        font-size:2.8rem;
+    }
+}
+
+
+/* ------------------------------------------
+   10. ANDROID / DISPLAY SAFE AREAS
+------------------------------------------ */
+
+@supports (padding: env(safe-area-inset-top)){
+
+    #app{
+        padding-top:
+            max(18px, env(safe-area-inset-top));
+        
+        padding-bottom:
+            max(18px, env(safe-area-inset-bottom));
+
+        padding-left:
+            max(14px, env(safe-area-inset-left));
+
+        padding-right:
+            max(14px, env(safe-area-inset-right));
+    }
+
+    #musicBtn{
+        top:
+            max(12px, env(safe-area-inset-top));
+
+        right:
+            max(12px, env(safe-area-inset-right));
+    }
+}
+
+
+/* ------------------------------------------
+   11. TOUCH INTERACTION
+------------------------------------------ */
+
+@media (hover:none){
+
+    button{
+        -webkit-tap-highlight-color:transparent;
+    }
+
+    button:hover{
+        transform:none;
+    }
+
+    button:active{
+        transform:scale(.98);
+    }
+}
+
+
+/* ------------------------------------------
+   12. VERY WIDE PHONES / TABLETS
+   Prevent cards from becoming excessively wide
+------------------------------------------ */
+
+@media (min-width:769px){
+
+    .glass-card{
+        width:min(900px,92vw);
+    }
+}
+
+
+/* ------------------------------------------
+   13. FINAL UNIVERSAL BOX SAFETY
+------------------------------------------ */
+
+*,
+*::before,
+*::after{
+    max-width:100%;
+}
+
+img, video{
+    max-width:100%;
+    height:auto;
+}
+
+/* ==========================================
+   FINAL POLISH 1 — DESTINY REVEAL TYPOGRAPHY
+========================================== */
+
+/* Restaurant name — elegant centerpiece */
+#restaurantName{
+    font-family:"Cormorant Garamond", serif;
+    font-weight:600;
+    letter-spacing:2px;
+}
+
+/* Match percentage — clean assessment style */
+#confidenceText{
+    font-family:"Poppins", sans-serif;
+    font-size:.9rem;
+    font-weight:600;
+    letter-spacing:2px;
+    margin-top:22px;
+}
+
+/* Personality — softer, more personal */
+#personalitySummary{
+    font-family:"Cormorant Garamond", serif;
+    font-size:1.15rem;
+    font-style:italic;
+    line-height:1.7;
+    margin-top:26px;
+}
+
+/* Restaurant description — straightforward information */
+#restaurantDescription{
+    font-family:"Poppins", sans-serif;
+    font-size:.9rem;
+    line-height:1.8;
+    margin-top:24px;
+}
+
+/* Destiny explanation — slightly more prominent */
+#destinyMessage{
+    font-family:"Poppins", sans-serif;
+    font-size:.95rem;
+    line-height:1.9;
+    margin-top:30px;
+}
+
+/* Give each reveal its own breathing room */
+#confidenceText,
+#personalitySummary,
+#restaurantDescription,
+#destinyMessage{
+    max-width:680px;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+/* ==========================================
+   FINAL POLISH 2 — ENDING TYPOGRAPHY
+========================================== */
+
+/* Main THANK YOU heading */
+#ending h1,
+#ending h2{
+    font-family:"Cormorant Garamond", serif;
+    font-weight:600;
+    letter-spacing:2px;
+}
+
+/* Main ending message */
+#ending p{
+    font-family:"Poppins", sans-serif;
+    line-height:1.9;
+}
+
+/* If the ending has a special closing/signature */
+#ending .endingSignature{
+    font-family:"Great Vibes", cursive;
+    font-size:1.8rem;
+    font-weight:400;
+    letter-spacing:0;
+    margin-top:35px;
+}
+/* ==========================================
+   FINAL MICRO-SPACING POLISH
+   ========================================== */
+
+/* ============================
+   DESTINY RESULT PAGE
+============================ */
+
+/* Keep the four result paragraphs compact but readable */
+#result #confidenceText,
+#result #personalitySummary,
+#result #restaurantDescription,
+#result #destinyMessage {
+    margin-top: 8px;
+    margin-bottom: 8px;
+    line-height: 1.45;
+}
+
+
+/* ============================
+   MEMORIES PAGE
+============================ */
+
+/* Keep the messages close to the photo stack */
+#memory #memoryLoopMessage{
+    margin-top:10px;
+    margin-bottom:6px;
+    line-height:1.5;
+}
+
+#memory #photoHint{
+    margin-top:6px;
+    margin-bottom:8px;
+    line-height:1.4;
+}
+
+/* Main memory message — compact but readable */
+#memory #memoryMessage{
+    margin-top:6px;
+    margin-bottom:4px;
+    line-height:1.45;
+}
+
+/* Bring the final button closer to the message */
+#memory #finishBtn{
+    margin-top:16px;
+}
+
+/* ============================
+   THANK YOU PAGE
+============================ */
+
+/* Small breathing space below the heading */
+#ending h2 {
+    margin-bottom: 14px;
+}
+
+/* Main thank-you paragraph */
+#ending #endingText {
+    margin-top: 0;
+    margin-bottom: 16px;
+    line-height: 1.45;
+}
+
+/* Quote */
+#ending .endingQuote {
+    margin-top: 0;
+    margin-bottom: 16px;
+    line-height: 1.45;
+}
+
+/* Signature */
+#ending .endingSignature {
+    margin-top: 0;
+    line-height: 1.4;
+}
+
+/* ==========================================
+   BIRTHDAY CONSTELLATION v2.0
+   ========================================== */
+
+#ending{
+    position:relative;
+    min-height:100dvh;
+    overflow:hidden;
+}
+
+/* Constellation canvas */
+#birthdayConstellation{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    max-width:none;
+    display:block;
+    pointer-events:none;
+    z-index:1;
+}
+
+/* Glass card stays above constellation */
+#ending .glass-card{
+    position:relative;
+    z-index:5;
+    transition:
+        transform 1.6s cubic-bezier(.22,.61,.36,1),
+        box-shadow 1.2s ease;
+}
+
+/* Tiny pre-flight vibration */
+#ending.constellation-start .glass-card{
+    animation:constellationCardVibrate .42s ease-in-out;
+}
+
+/* Card moves upward, making room below */
+#ending.constellation-rise .glass-card{
+    transform:translateY(-16vh) translateZ(0);
+}
+
+/* Final subtle atmosphere */
+#ending.constellation-finished .glass-card{
+    box-shadow:
+        inset 0 1px 1px rgba(255,255,255,.14),
+        0 20px 65px rgba(0,0,0,.40),
+        0 0 45px rgba(245,223,155,.06);
+}
+
+/* Tiny cinematic vibration */
+@keyframes constellationCardVibrate{
+    0%{transform:translateX(0)}
+    20%{transform:translateX(-2px)}
+    40%{transform:translateX(2px)}
+    60%{transform:translateX(-1.5px)}
+    80%{transform:translateX(1px)}
+    100%{transform:translateX(0)}
+}
+
+/* ==========================================
+   HAPPY BIRTHDAY TEXT
+   ========================================== */
+#birthdayMessage {
+    position: absolute;
+    left: 50%;
+    bottom: 5%;
+    transform: translateX(-50%) translateY(10px);
+
+    width: 100%;
+    text-align: center;
+
+    z-index: 20;
+
+    opacity: 0;
+    filter: blur(6px);
+
+    transition:
+        opacity 2.4s ease,
+        filter 2.4s ease,
+        transform 2.4s cubic-bezier(.22,.61,.36,1);
+
+    pointer-events: none;
+}
+
+#birthdayMessage.show {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateX(-50%) translateY(0);
+}
+#birthdayText {
+    font-family: "Aston Script", cursive;
+
+    font-size: clamp(32px, 5vw, 58px);
+
+    color: #f4d58a;
+
+    text-shadow:
+        0 0 8px rgba(255, 220, 130, .55),
+        0 0 18px rgba(255, 210, 100, .35);
+
+    white-space: nowrap;
+}
+/* Text appears after constellation */
+#ending.birthday-text-show #birthdayMessage{
+    opacity:1;
+    transform:translateX(-50%);
+}
+
+/* ==========================================
+   LAZY STAR
+   ========================================== */
+
+#lazyStar{
+    position:absolute;
+    z-index:7;
+    pointer-events:none;
+
+    width:12px;
+    height:12px;
+    border-radius:50%;
+
+    background:#f5df9b;
+
+    opacity:0;
+
+    box-shadow:
+        0 0 7px rgba(245,223,155,.8),
+        0 0 16px rgba(245,223,155,.45);
+}
+
+/* Star becomes visible */
+#ending.lazy-star-show #lazyStar{
+    opacity:1;
+}
+
+/* Bright flash */
+#ending.lazy-star-flash #lazyStar{
+    box-shadow:
+        0 0 8px #fff,
+        0 0 22px rgba(245,223,155,1),
+        0 0 45px rgba(245,223,155,.9),
+        0 0 80px rgba(245,223,155,.65);
+
+    transform:scale(2.2);
+    transition:
+        transform .12s ease,
+        box-shadow .12s ease;
+}
+
+/* Whole scene briefly lights up */
+#ending.lazy-star-flash::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    z-index:4;
+    pointer-events:none;
+
+    background:rgba(255,235,175,.18);
+
+    animation:starFlash .38s ease-out forwards;
+}
+
+@keyframes starFlash{
+    0%{opacity:1}
+    100%{opacity:0}
+}
+
+/* ==========================================
+   MOBILE
+   ========================================== */
+
+@media(max-width:768px){
+    #ending{
+        min-height:100dvh;
+    }
+
+    #ending.constellation-rise .glass-card{
+        transform:translateY(-16vh) translateZ(0);
+    }
+}
+
+/* Very short phones */
+@media(max-height:700px) and (max-width:768px){
+    #ending.constellation-rise .glass-card{
+        transform:translateY(-13vh) translateZ(0);
+    }
+}
+/* ==========================================
+   V1.1 FINAL — MOBILE BIRTHDAY MESSAGE SAFETY
+   Keep the HTML birthday text inside the
+   visible constellation viewport.
+   ========================================== */
+@media (max-width:768px){
+
+    #birthdayMessage{
+        position:absolute;
+
+        left:50%;
+        right:auto;
+
+        width:100%;
+        max-width:100%;
+
+        bottom:clamp(28px, 7vh, 60px);
+
+        transform:translateX(-50%);
+
+        z-index:20;
+
+        text-align:center;
+
+        padding:0 14px;
+        box-sizing:border-box;
+    }
+
+    #birthdayText{
+        display:block;
+        width:100%;
+        max-width:100%;
+
+        margin:0 auto;
+
+        font-size:clamp(1.35rem, 5.8vw, 2.05rem);;
+
+        text-align:center;
+        white-space:nowrap;
+    }
+}
+/* =========================================================
+   V2.0 — SELF-SCROLLING PAPER LETTER
+   ========================================================= */
+
+/* =========================================================
+   V2.0 — LIVING PARCHMENT
+   ========================================================= */
+
+#letter .letter-card {
+    position: relative;
+    isolation: isolate;
+
+    background:
+        rgba(231, 210, 169, .68);
+
+    overflow: hidden;
+}
+
+/* Moving aged-paper atmosphere */
+
+/* =========================================================
+   V2.0 — LIVING PARCHMENT CARD
+   ========================================================= */
+
+#letter .letter-card {
+    position: relative;
+    isolation: isolate;
+
+    width: 95vw;
+    height: 95dvh;
+
+    padding: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    overflow: hidden;
+    box-sizing: border-box;
+
+    border-radius: 0;
+
+    color: #3b2a1a;
+
+    background: rgba(231, 210, 169, .68);
+
+    border: 1px solid rgba(105, 67, 30, .28);
+
+    box-shadow:
+    0 18px 45px rgba(35, 20, 8, .25),
+    inset 0 0 12px rgba(75, 40, 12, .28),
+    inset 0 0 32px rgba(92, 50, 15, .16),
+    inset 0 0 70px rgba(65, 35, 10, .10);
+}
+
+/* Moving parchment atmosphere */
+
+#letter .letter-card::before {
+    content: "";
+
+    position: absolute;
+    inset: -35%;
+
+    z-index: 0;
+    pointer-events: none;
+
+    background:
+        radial-gradient(
+            ellipse at 20% 30%,
+            rgba(105, 61, 22, .18),
+            transparent 28%
+        ),
+        radial-gradient(
+            ellipse at 78% 65%,
+            rgba(128, 77, 28, .15),
+            transparent 30%
+        ),
+        radial-gradient(
+            ellipse at 45% 90%,
+            rgba(88, 48, 18, .12),
+            transparent 25%
+        );
+
+    filter: blur(18px);
+
+    animation: parchmentLife 24s ease-in-out infinite alternate;
+}
+
+/* Subtle paper grain */
+
+#letter .letter-card::after {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    z-index: 1;
+    pointer-events: none;
+
+    background:
+        radial-gradient(
+            ellipse at 0% 12%,
+            rgba(74, 40, 13, .20),
+            transparent 17%
+        ),
+        radial-gradient(
+            ellipse at 100% 28%,
+            rgba(78, 42, 13, .18),
+            transparent 18%
+        ),
+        radial-gradient(
+            ellipse at 4% 82%,
+            rgba(72, 38, 12, .17),
+            transparent 20%
+        ),
+        radial-gradient(
+            ellipse at 96% 88%,
+            rgba(72, 38, 12, .20),
+            transparent 19%
+        ),
+        repeating-linear-gradient(
+            0deg,
+            rgba(75, 48, 20, .018) 0,
+            rgba(75, 48, 20, .018) 1px,
+            transparent 1px,
+            transparent 5px
+        );
+
+    opacity: .75;
+}
+
+/* Keep letter content above the texture */
+
+#letterContent {
+    position: relative;
+    z-index: 2;
+}
+
+@keyframes parchmentLife {
+
+    0% {
+        transform:
+            translate(-3%, -2%)
+            scale(1);
+    }
+
+    50% {
+        transform:
+            translate(2%, 3%)
+            scale(1.04);
+    }
+
+    100% {
+        transform:
+            translate(-1%, 1%)
+            scale(1.08);
+    }
+}
+/* Letter reading area */
+
+#letterContent {
+    flex: 1;
+
+    width: 100%;
+
+    box-sizing: border-box;
+
+    padding: 42px 28px 45px;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    -webkit-overflow-scrolling: touch;
+
+    overscroll-behavior: contain;
+
+    scrollbar-width: thin;
+
+    color: #3b2a1a;
+
+    font-family: "Milk Moustachio", cursive;
+    font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+
+    line-height: 1.55;
+
+    text-align: center;
+}
+
+/* Paragraphs */
+
+#letterContent p {
+    width: 100%;
+    max-width: 620px;
+
+    margin: 0 auto 14px;
+
+    color: #3b2a1a;
+
+    font-family: "Milk Moustachio", cursive;
+    font-size: inherit;
+
+    line-height: inherit;
+
+    text-align: center;
+}
+
+/* Scrollbar */
+
+#letterContent::-webkit-scrollbar {
+    width: 5px;
+}
+
+#letterContent::-webkit-scrollbar-track {
+    background: rgba(90, 55, 20, .06);
+}
+
+#letterContent::-webkit-scrollbar-thumb {
+    background: rgba(90, 55, 20, .25);
+    border-radius: 999px;
+}
+
+/* Memory button */
+
+#letter #memoryBtn {
+    flex-shrink: 0;
+
+    width: calc(100% - 40px);
+
+    margin: 0 20px 20px;
+}
+
+/* Mobile */
+
+@media (max-width: 768px) {
+
+    #letter .letter-card {
+        width: 95vw;
+        height: 95dvh;
+    }
+
+    #letterContent {
+        padding: 32px 20px 40px;
+
+        font-size: clamp(
+            1.05rem,
+            4.3vw,
+            1.3rem
+        );
+
+        line-height: 1.5;
+    }
+
+    #letterContent p {
+        margin-bottom: 10px;
+    }
+}
+/* =========================================================
+   V2.0 — HUNT 1
+   PAINTING DIFFERENCE INVESTIGATION
+========================================================= */
+
+#hunt1 {
+    width: 100%;
+    min-height: 100dvh;
+
+    padding:
+        20px 0;
+}
+
+
+/* =========================================================
+   MAIN CARD
+========================================================= */
+
+#hunt1 .hunt1-card {
+
+    width: min(94vw, 1100px);
+    max-width: 1100px;
+
+    padding:
+        clamp(24px, 4vw, 42px)
+        clamp(18px, 4vw, 42px);
+
+    text-align: center;
+}
+
+
+/* =========================================================
+   PROGRESS DOTS
+========================================================= */
+
+.hunt1-progress {
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    gap: 10px;
+
+    margin-bottom: 22px;
+}
+
+
+.hunt1-dot {
+
+    width: 9px;
+    height: 9px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(245, 223, 155, .16);
+
+    border:
+        1px solid
+        rgba(245, 223, 155, .45);
+
+    transition:
+        background .35s ease,
+        box-shadow .35s ease,
+        transform .35s ease;
+}
+
+
+.hunt1-dot.found {
+
+    background:
+        var(--gold);
+
+    box-shadow:
+        0 0 8px
+        rgba(245, 223, 155, .65),
+
+        0 0 18px
+        rgba(245, 223, 155, .25);
+
+    transform:
+        scale(1.15);
+}
+
+
+/* =========================================================
+   TEXT
+========================================================= */
+
+.hunt1-title {
+
+    margin:
+        0 auto 12px;
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    font-size:
+        clamp(1.7rem, 5vw, 2.8rem);
+
+    font-weight:
+        600;
+
+    color:
+        var(--gold);
+
+    letter-spacing:
+        1px;
+}
+
+
+.hunt1-intro {
+
+    max-width:
+        620px;
+
+    margin:
+        0 auto;
+
+    color:
+        var(--muted);
+
+    font-size:
+        clamp(.9rem, 2.5vw, 1.05rem);
+
+    line-height:
+        1.7;
+}
+
+
+.hunt1-hint {
+
+    margin-top:
+        12px;
+
+    color:
+        rgba(245, 223, 155, .72);
+
+    font-size:
+        .82rem;
+
+    letter-spacing:
+        .5px;
+
+    font-style:
+        italic;
+}
+
+
+/* =========================================================
+   PAINTING LAYOUT
+========================================================= */
+
+.hunt1-paintings {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap:
+        clamp(12px, 2.5vw, 26px);
+
+    width:
+        100%;
+
+    margin:
+        28px auto 0;
+}
+
+
+.hunt1-image-wrap {
+
+    min-width:
+        0;
+}
+
+
+.hunt1-image-label {
+
+    margin:
+        0 0 8px;
+
+    color:
+        var(--gold);
+
+    font-size:
+        .7rem;
+
+    font-weight:
+        700;
+
+    letter-spacing:
+        3px;
+}
+
+
+.hunt1-image-frame {
+
+    position:
+        relative;
+
+    width:
+        100%;
+
+    overflow:
+        hidden;
+
+    border:
+        1px solid
+        rgba(245, 223, 155, .30);
+
+    background:
+        rgba(0, 0, 0, .15);
+
+    box-shadow:
+        0 12px 30px
+        rgba(0, 0, 0, .30);
+}
+
+
+.hunt1-image-frame img {
+
+    display:
+        block;
+
+    width:
+        100%;
+
+    height:
+        auto;
+
+    user-select:
+        none;
+
+    -webkit-user-select:
+        none;
+
+    -webkit-user-drag:
+        none;
+
+    pointer-events:
+        none;
+}
+
+
+/* =========================================================
+   INVISIBLE HOTSPOTS
+========================================================= */
+
+.hunt1-target {
+
+    position:
+        relative;
+}
+
+
+.hunt1-hotspot {
+
+    position:
+        absolute;
+
+    z-index:
+        5;
+
+    margin:
+        0;
+
+    padding:
+        0;
+
+    min-height:
+        0;
+
+    border:
+        0;
+
+    border-radius:
+        0;
+
+    background:
+        transparent;
+
+    box-shadow:
+        none;
+
+    backdrop-filter:
+        none;
+
+    -webkit-backdrop-filter:
+        none;
+
+    opacity:
+        0;
+
+    cursor:
+        crosshair;
+
+    /*
+       IMPORTANT:
+       The player should NOT see these regions.
+    */
+
+    transform:
+        none;
+
+    animation:
+        none;
+}
+
+
+.hunt1-hotspot::before,
+.hunt1-hotspot::after {
+
+    display:
+        none;
+}
+
+
+.hunt1-hotspot:hover {
+
+    transform:
+        none;
+
+    border:
+        0;
+
+    background:
+        transparent;
+
+    box-shadow:
+        none;
+}
+
+
+/* =========================================================
+   FOUND DIFFERENCE
+========================================================= */
+.hunt1-hotspot.hunt1-found {
+
+    opacity: 1;
+
+    border:
+        1px solid
+        rgba(245, 223, 155, .85);
+
+    background:
+        rgba(245, 223, 155, .06);
+
+    box-shadow:
+        0 0 7px
+        rgba(245, 223, 155, .55),
+
+        inset 0 0 7px
+        rgba(245, 223, 155, .08);
+
+    animation:
+        hunt1FoundPulse 1.4s
+        ease-in-out infinite;
+}
+
+@keyframes hunt1FoundPulse {
+
+    0%,
+    100% {
+
+        box-shadow:
+
+            0 0 8px
+            rgba(245, 223, 155, .45),
+
+            inset 0 0 8px
+            rgba(245, 223, 155, .08);
+    }
+
+    50% {
+
+        box-shadow:
+
+            0 0 18px
+            rgba(245, 223, 155, .85),
+
+            inset 0 0 15px
+            rgba(245, 223, 155, .16);
+    }
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.hunt1-status {
+
+    min-height:
+        28px;
+
+    margin:
+        18px auto 0;
+
+    color:
+        rgba(245, 223, 155, .72);
+
+    font-size:
+        .88rem;
+
+    transition:
+        opacity .3s ease,
+        transform .3s ease,
+        color .3s ease;
+}
+
+
+.hunt1-status.hunt1-success {
+
+    color:
+        var(--gold);
+
+    font-weight:
+        600;
+}
+
+
+.hunt1-status.hunt1-bonus {
+
+    color:
+        #ffe8a6;
+
+    font-weight:
+        700;
+
+    text-shadow:
+        0 0 10px
+        rgba(245, 223, 155, .45);
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+
+    #hunt1 {
+
+        padding:
+            10px 0 20px;
+    }
+
+
+    #hunt1 .hunt1-card {
+
+        width:
+            95vw;
+
+        padding:
+            24px 14px 28px;
+    }
+
+
+    .hunt1-progress {
+
+        margin-bottom:
+            16px;
+    }
+
+
+    .hunt1-paintings {
+
+        grid-template-columns:
+            1fr;
+
+        gap:
+            22px;
+
+        margin-top:
+            22px;
+    }
+
+
+    .hunt1-image-label {
+
+        margin-bottom:
+            6px;
+
+        font-size:
+            .62rem;
+
+        letter-spacing:
+            2.5px;
+    }
+
+
+    .hunt1-status {
+
+        margin-top:
+            15px;
+
+        font-size:
+            .82rem;
+    }
+}
+
+
+/* =========================================================
+   VERY NARROW PHONES
+========================================================= */
+
+@media (max-width: 380px) {
+
+    #hunt1 .hunt1-card {
+
+        padding-left:
+            10px;
+
+        padding-right:
+            10px;
+    }
+
+
+    .hunt1-title {
+
+        font-size:
+            1.65rem;
+    }
+
+
+    .hunt1-intro {
+
+        font-size:
+            .84rem;
+    }
+}
+/* =========================================================
+   HUNT 1 — CHOCOLATE BONUS CELEBRATION
+========================================================= */
+
+#hunt1ChocolateBonus {
+
+    position:
+        fixed;
+
+    inset:
+        0;
+
+    z-index:
+        9999;
+
+    display:
+        flex;
+
+    justify-content:
+        center;
+
+    align-items:
+        center;
+
+    overflow:
+        hidden;
+
+    padding:
+        24px;
+
+    box-sizing:
+        border-box;
+
+    background:
+        rgba(5, 7, 14, .72);
+
+    backdrop-filter:
+        blur(5px);
+
+    -webkit-backdrop-filter:
+        blur(5px);
+
+    animation:
+        hunt1BonusFadeIn .35s ease;
+}
+
+
+.hunt1-chocolate-message {
+
+    position:
+        relative;
+
+    z-index:
+        2;
+
+    width:
+        min(88vw, 520px);
+
+    padding:
+        30px 24px;
+
+    box-sizing:
+        border-box;
+
+    text-align:
+        center;
+
+    border:
+        1px solid
+        rgba(245, 223, 155, .45);
+
+    background:
+        rgba(20, 16, 28, .88);
+
+    box-shadow:
+        0 20px 60px
+        rgba(0, 0, 0, .5),
+
+        0 0 35px
+        rgba(245, 223, 155, .12);
+
+    animation:
+        hunt1ChocolatePop .65s
+        cubic-bezier(.2, 1.4, .4, 1);
+}
+
+
+.hunt1-big-chocolate {
+
+    font-size:
+        clamp(4rem, 18vw, 7rem);
+
+    line-height:
+        1;
+
+    margin-bottom:
+        12px;
+
+    animation:
+        hunt1ChocolateBounce 1.4s
+        ease-in-out infinite;
+}
+
+
+.hunt1-chocolate-message h2 {
+
+    margin:
+        0 0 12px;
+
+    color:
+        var(--gold);
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    font-size:
+        clamp(1.5rem, 6vw, 2.3rem);
+
+    letter-spacing:
+        1px;
+}
+
+
+.hunt1-chocolate-message p {
+
+    margin:
+        7px 0;
+
+    color:
+        var(--muted);
+
+    font-size:
+        clamp(.85rem, 2.8vw, 1rem);
+
+    line-height:
+        1.55;
+}
+
+
+.hunt1-chocolate-message strong {
+
+    color:
+        #ffe8a6;
+}
+
+
+.hunt1-bablu-line {
+
+    margin-top:
+        16px !important;
+
+    color:
+        #ffe8a6 !important;
+
+    font-weight:
+        700;
+}
+
+
+/* ==========================================
+   CONFETTI
+========================================== */
+
+.hunt1-confetti-layer {
+
+    position:
+        absolute;
+
+    inset:
+        0;
+
+    overflow:
+        hidden;
+
+    pointer-events:
+        none;
+}
+
+
+.hunt1-confetti-piece {
+
+    position:
+        absolute;
+
+    top:
+        -10%;
+
+    opacity:
+        0;
+
+    animation-name:
+        hunt1ConfettiFall;
+
+    animation-timing-function:
+        ease-in;
+
+    animation-iteration-count:
+        1;
+}
+
+
+@keyframes hunt1ConfettiFall {
+
+    0% {
+
+        transform:
+            translateY(-10vh)
+            rotate(0deg);
+
+        opacity:
+            0;
+    }
+
+    10% {
+
+        opacity:
+            1;
+    }
+
+    100% {
+
+        transform:
+            translateY(115vh)
+            rotate(540deg);
+
+        opacity:
+            0;
+    }
+}
+
+
+@keyframes hunt1BonusFadeIn {
+
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+
+@keyframes hunt1ChocolatePop {
+
+    0% {
+
+        opacity: 0;
+
+        transform:
+            scale(.65)
+            translateY(25px);
+    }
+
+    70% {
+
+        transform:
+            scale(1.04)
+            translateY(-3px);
+    }
+
+    100% {
+
+        opacity: 1;
+
+        transform:
+            scale(1)
+            translateY(0);
+    }
+}
+
+
+@keyframes hunt1ChocolateBounce {
+
+    0%,
+    100% {
+        transform:
+            translateY(0)
+            rotate(-2deg);
+    }
+
+    50% {
+        transform:
+            translateY(-8px)
+            rotate(2deg);
+    }
+}
+/* =========================================================
+   V2.0 — HUNT 2
+   OFFICIAL IDENTITY INVESTIGATION
+========================================================= */
+
+#hunt2 {
+    min-height: 100dvh;
+    padding: 18px;
+}
+
+.hunt2-card {
+    position: relative;
+
+    width: min(900px, 95vw);
+    max-height: 94dvh;
+
+    overflow-y: auto;
+
+    padding: 34px 28px;
+
+    box-sizing: border-box;
+
+    color: #eee8da;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(20, 22, 30, .92),
+            rgba(9, 11, 18, .94)
+        );
+
+    border:
+        1px solid
+        rgba(245, 223, 155, .22);
+
+    box-shadow:
+        0 20px 60px rgba(0,0,0,.48),
+        inset 0 1px 1px rgba(255,255,255,.08);
+
+    text-align: center;
+}
+
+
+.hunt2-progress {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.hunt2-dot {
+    width: 8px;
+    height: 8px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(245,223,155,.18);
+
+    border:
+        1px solid
+        rgba(245,223,155,.35);
+
+    transition:
+        background .4s ease,
+        box-shadow .4s ease,
+        transform .4s ease;
+}
+
+.hunt2-dot.active,
+.hunt2-dot.done {
+    background: #f5df9b;
+
+    box-shadow:
+        0 0 10px
+        rgba(245,223,155,.75);
+
+    transform: scale(1.15);
+}
+
+
+/* ---------- Opening instruction ---------- */
+
+.hunt2-classification {
+    color: #f5df9b;
+
+    font-size: .72rem;
+
+    letter-spacing: 2.5px;
+
+    text-transform: uppercase;
+
+    margin-bottom: 14px;
+}
+
+#hunt2 h2 {
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    font-size:
+        clamp(1.6rem, 5vw, 2.5rem);
+
+    letter-spacing: 1.5px;
+
+    margin-bottom: 20px;
+
+    color: #f5df9b;
+}
+
+#hunt2Instruction p {
+    max-width: 680px;
+
+    margin:
+        0 auto 14px;
+
+    line-height: 1.7;
+
+    color: #cfd3df;
+
+    font-size: .95rem;
+}
+
+.hunt2-serious {
+    font-style: italic;
+    opacity: .8;
+}
+
+
+/* ---------- Report ---------- */
+
+#hunt2Report > h2 {
+    margin-bottom: 5px;
+}
+
+.hunt2-file {
+    opacity: .55;
+    font-size: .78rem;
+    letter-spacing: 2px;
+}
+
+.hunt2-evidence {
+    margin:
+        22px auto 18px;
+
+    padding:
+        14px 16px;
+
+    max-width: 560px;
+
+    border:
+        1px solid
+        rgba(245,223,155,.25);
+
+    background:
+        rgba(245,223,155,.035);
+
+    box-shadow:
+        inset 0 0 18px
+        rgba(245,223,155,.025);
+}
+
+.hunt2-evidence > span {
+    display: block;
+
+    color: #f5df9b;
+
+    font-size: .7rem;
+
+    letter-spacing: 3px;
+
+    margin-bottom: 9px;
+}
+
+#hunt2EvidenceText {
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    letter-spacing: 3px;
+
+    font-size:
+        clamp(.9rem, 3.4vw, 1.2rem);
+
+    color: #f3eee3;
+}
+
+#hunt2Status {
+    min-height: 22px;
+
+    margin:
+        10px auto 20px;
+
+    color: #aeb6c9;
+
+    font-size: .8rem;
+
+    letter-spacing: 1px;
+
+    transition:
+        transform .2s ease,
+        color .2s ease;
+}
+
+#hunt2Status.wrong {
+    color: #ff9b9b;
+
+    animation:
+        hunt2Shake .28s ease;
+}
+
+#hunt2Status.success {
+    color: #f5df9b;
+}
+
+.hunt2-report-text {
+    max-width: 700px;
+
+    margin: auto;
+
+    text-align: left;
+
+    color: #cdd2df;
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    font-size:
+        clamp(1rem, 3vw, 1.15rem);
+
+    line-height: 1.7;
+}
+
+.hunt2-report-text p {
+    margin-bottom: 18px;
+}
+
+
+/* ---------- Highlighted letters ---------- */
+
+.hunt2-letter {
+    display: inline-block;
+
+    color: #f5df9b;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    text-shadow:
+        0 0 5px rgba(245,223,155,.5);
+
+    animation:
+        hunt2LetterShimmer 2.4s
+        ease-in-out infinite;
+
+    transition:
+        transform .2s ease,
+        color .2s ease;
+}
+
+.hunt2-letter:hover {
+    transform: scale(1.18);
+}
+
+.hunt2-letter.collected {
+    color: #fff;
+
+    animation: none;
+
+    transform:
+        scale(1.15);
+
+    text-shadow:
+        0 0 12px
+        rgba(255,255,255,.9);
+}
+
+@keyframes hunt2LetterShimmer {
+    0%, 100% {
+        opacity: .72;
+    }
+
+    50% {
+        opacity: 1;
+
+        text-shadow:
+            0 0 5px rgba(245,223,155,.45),
+            0 0 13px rgba(245,223,155,.22);
+    }
+}
+
+
+/* ---------- Identity ---------- */
+
+.hunt2-stamp {
+    display: inline-block;
+
+    padding: 7px 14px;
+
+    border:
+        1px solid
+        rgba(245,223,155,.45);
+
+    color: #f5df9b;
+
+    letter-spacing: 3px;
+
+    font-size: .7rem;
+
+    transform: rotate(-2deg);
+
+    margin-bottom: 20px;
+}
+
+.hunt2-suspect {
+    max-width: 430px;
+
+    margin:
+        25px auto;
+
+    padding:
+        18px;
+
+    border:
+        1px solid
+        rgba(245,223,155,.22);
+
+    background:
+        rgba(245,223,155,.04);
+}
+
+.hunt2-suspect span {
+    display: block;
+
+    font-size: .68rem;
+
+    letter-spacing: 2px;
+
+    opacity: .6;
+
+    margin-bottom: 8px;
+}
+
+.hunt2-suspect strong {
+    display: block;
+
+    color: #f5df9b;
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    font-size: 2rem;
+
+    letter-spacing: 2px;
+}
+
+.hunt2-final-report {
+    max-width: 600px;
+
+    margin:
+        20px auto;
+
+    line-height: 1.7;
+
+    color: #cdd2df;
+}
+
+
+/* ---------- Confession ---------- */
+
+#hunt2Confession p,
+#hunt2WordConfirm p,
+#hunt2Complete p,
+#hunt2Identity > p {
+    max-width: 620px;
+
+    margin:
+        0 auto 15px;
+
+    line-height: 1.65;
+
+    color: #cdd2df;
+}
+
+.hunt2-command {
+    margin:
+        28px auto 12px;
+
+    padding:
+        20px 15px;
+
+    max-width: 520px;
+
+    border:
+        1px solid
+        rgba(245,223,155,.3);
+
+    color: #f5df9b;
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    font-size:
+        clamp(1.35rem, 5vw, 2rem);
+
+    font-weight: 700;
+
+    letter-spacing: 2px;
+
+    box-shadow:
+        0 0 25px
+        rgba(245,223,155,.06);
+}
+
+.hunt2-warning {
+    font-size: .78rem !important;
+    opacity: .65;
+}
+
+.hunt2-suffered {
+    margin:
+        25px auto 5px;
+
+    color: #f5df9b;
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    font-size: 1.25rem;
+
+    font-style: italic;
+}
+
+#hunt2ConfessionProgress {
+    margin-top: 18px !important;
+
+    color: #f5df9b !important;
+
+    font-size: .72rem !important;
+
+    letter-spacing: 2px;
+}
+
+
+/* ---------- Final ---------- */
+
+.hunt2-success-symbol {
+    width: 62px;
+    height: 62px;
+
+    margin:
+        0 auto 20px;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 50%;
+
+    border:
+        1px solid
+        rgba(245,223,155,.5);
+
+    color: #f5df9b;
+
+    font-size: 2rem;
+
+    box-shadow:
+        0 0 25px
+        rgba(245,223,155,.15);
+}
+
+
+/* ---------- Mobile ---------- */
+
+@media (max-width: 768px) {
+
+    #hunt2 {
+        padding: 10px;
+    }
+
+    .hunt2-card {
+        width: 95vw;
+        max-height: 95dvh;
+
+        padding:
+            26px 18px;
+    }
+
+    .hunt2-report-text {
+        font-size: 1rem;
+        line-height: 1.65;
+    }
+
+    #hunt2 h2 {
+        font-size: 1.65rem;
+    }
+}
+
+
+@keyframes hunt2Shake {
+
+    0%, 100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-5px);
+    }
+
+    50% {
+        transform: translateX(5px);
+    }
+
+    75% {
+        transform: translateX(-3px);
+    }
+}
+
+.hunt2-order-warning {
+    margin: 14px auto 10px;
+
+    max-width: 560px;
+
+    color: #bfc5d5;
+
+    font-size: .75rem;
+
+    line-height: 1.55;
+
+    letter-spacing: .3px;
+}
+
+.hunt2-order-warning strong {
+    color: #f5df9b;
+}
+
+.hunt2-undo {
+    margin-top: 8px;
+
+    padding: 7px 13px;
+
+    border:
+        1px solid
+        rgba(245,223,155,.22);
+
+    background:
+        rgba(245,223,155,.035);
+
+    color: #aaaebe;
+
+    font-size: .68rem;
+
+    letter-spacing: 1px;
+
+    cursor: pointer;
+
+    transition:
+        opacity .25s ease,
+        transform .2s ease,
+        background .2s ease;
+}
+
+.hunt2-undo:not(:disabled):hover {
+    transform: translateY(-1px);
+
+    background:
+        rgba(245,223,155,.08);
+
+    color: #f5df9b;
+}
+
+.hunt2-undo:disabled {
+    opacity: .3;
+    cursor: not-allowed;
+}
+.hunt2-five-times {
+    color: #f5df9b !important;
+
+    font-size: .9rem !important;
+
+    letter-spacing: .5px;
+}
+
+.hunt2-five-times strong {
+    font-size: 1.05em;
+}
+
+.hunt2-command {
+    transition:
+        opacity .3s ease,
+        transform .3s ease;
+}
+
+/* =========================================================
+   V2.0 — HUNT 3
+   THE CHAPTER RIDDLE
+========================================================= */
+
+#hunt3 {
+    min-height: 100dvh;
+
+    width: 100%;
+
+    padding:
+        14px;
+}
+
+
+/* ============================
+   MAIN CARD
+============================ */
+
+.hunt3-card {
+
+    width:
+        min(720px, 95vw);
+
+    max-height:
+        94dvh;
+
+    overflow-y:
+        auto;
+
+    padding:
+        34px 28px;
+
+    box-sizing:
+        border-box;
+
+    position:
+        relative;
+
+    color:
+        #eee8da;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(20,22,30,.94),
+            rgba(9,11,18,.96)
+        );
+
+    border:
+        1px solid
+        rgba(245,223,155,.20);
+
+    box-shadow:
+        0 20px 60px
+        rgba(0,0,0,.48),
+
+        inset 0 1px 1px
+        rgba(255,255,255,.07);
+
+    text-align:
+        center;
+}
+
+
+/* ============================
+   PROGRESS
+============================ */
+
+.hunt3-progress {
+
+    display:
+        flex;
+
+    justify-content:
+        center;
+
+    gap:
+        10px;
+
+    margin-bottom:
+        25px;
+}
+
+.hunt3-dot {
+
+    width:
+        8px;
+
+    height:
+        8px;
+
+    border-radius:
+        50%;
+
+    background:
+        rgba(245,223,155,.16);
+
+    border:
+        1px solid
+        rgba(245,223,155,.32);
+
+    transition:
+        background .35s ease,
+        box-shadow .35s ease,
+        transform .35s ease;
+}
+
+.hunt3-dot.active,
+.hunt3-dot.done {
+
+    background:
+        #f5df9b;
+
+    box-shadow:
+        0 0 10px
+        rgba(245,223,155,.65);
+
+    transform:
+        scale(1.15);
+}
+
+
+/* ============================
+   HEADING
+============================ */
+
+.hunt3-label {
+
+    color:
+        #f5df9b;
+
+    font-size:
+        .7rem;
+
+    letter-spacing:
+        3px;
+
+    text-transform:
+        uppercase;
+
+    margin-bottom:
+        12px;
+}
+
+#hunt3 h2 {
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    font-size:
+        clamp(
+            1.7rem,
+            5vw,
+            2.5rem
+        );
+
+    font-weight:
+        600;
+
+    letter-spacing:
+        1.5px;
+
+    color:
+        #f5df9b;
+
+    margin-bottom:
+        25px;
+}
+
+
+/* ============================
+   POEM
+============================ */
+
+.hunt3-poem {
+
+    max-width:
+        600px;
+
+    margin:
+        0 auto;
+
+    color:
+        #d8dce6;
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    font-size:
+        clamp(
+            1.05rem,
+            3.5vw,
+            1.25rem
+        );
+
+    line-height:
+        1.7;
+
+    text-align:
+        center;
+}
+
+.hunt3-poem p {
+
+    margin:
+        0 0 15px;
+}
+
+.hunt3-poem p:last-child {
+
+    margin-top:
+        22px;
+
+    margin-bottom:
+        0;
+
+    color:
+        #f5df9b;
+
+    font-style:
+        italic;
+}
+
+
+/* ============================
+   ANSWER
+============================ */
+
+.hunt3-answer-area {
+
+    max-width:
+        480px;
+
+    margin:
+        30px auto 0;
+}
+
+.hunt3-instruction {
+
+    color:
+        #aeb5c7;
+
+    font-size:
+        .78rem;
+
+    letter-spacing:
+        .6px;
+
+    margin-bottom:
+        10px;
+}
+
+#hunt3Answer {
+
+    width:
+        100%;
+
+    padding:
+        14px 16px;
+
+    box-sizing:
+        border-box;
+
+    border:
+        1px solid
+        rgba(245,223,155,.25);
+
+    background:
+        rgba(255,255,255,.045);
+
+    color:
+        #f5f7ff;
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    font-size:
+        1.1rem;
+
+    text-align:
+        center;
+
+    outline:
+        none;
+
+    border-radius:
+        4px;
+
+    transition:
+        border-color .25s ease,
+        box-shadow .25s ease;
+}
+
+#hunt3Answer::placeholder {
+
+    color:
+        rgba(220,225,235,.4);
+}
+
+#hunt3Answer:focus {
+
+    border-color:
+        rgba(245,223,155,.6);
+
+    box-shadow:
+        0 0 18px
+        rgba(245,223,155,.08);
+}
+
+
+/* ============================
+   FEEDBACK
+============================ */
+
+#hunt3Feedback {
+
+    min-height:
+        22px;
+
+    margin-top:
+        12px;
+
+    font-size:
+        .78rem;
+
+    letter-spacing:
+        .5px;
+
+    transition:
+        opacity .25s ease,
+        transform .25s ease;
+}
+
+#hunt3Feedback.wrong {
+
+    color:
+        #ff9d9d;
+
+    animation:
+        hunt3Shake .28s ease;
+}
+
+#hunt3Feedback.success {
+
+    color:
+        #f5df9b;
+}
+
+
+/* ============================
+   SUCCESS
+============================ */
+
+#hunt3Success {
+
+    margin-top:
+        28px;
+
+    animation:
+        hunt3Reveal .65s ease;
+}
+
+.hunt3-check {
+
+    width:
+        58px;
+
+    height:
+        58px;
+
+    margin:
+        0 auto 18px;
+
+    display:
+        flex;
+
+    justify-content:
+        center;
+
+    align-items:
+        center;
+
+    border-radius:
+        50%;
+
+    border:
+        1px solid
+        rgba(245,223,155,.5);
+
+    color:
+        #f5df9b;
+
+    font-size:
+        1.8rem;
+
+    box-shadow:
+        0 0 25px
+        rgba(245,223,155,.12);
+}
+
+.hunt3-correct-label {
+
+    color:
+        #f5df9b;
+
+    font-size:
+        .68rem;
+
+    letter-spacing:
+        3px;
+
+    margin-bottom:
+        10px;
+}
+
+#hunt3Success h2 {
+
+    margin-bottom:
+        8px;
+
+    font-size:
+        clamp(
+            2rem,
+            7vw,
+            3rem
+        );
+}
+
+#hunt3Success p {
+
+    color:
+        #cdd2df;
+
+    line-height:
+        1.6;
+
+    margin-bottom:
+        8px;
+}
+
+#hunt3Success .hunt3-joke {
+
+    margin-top:
+        15px;
+
+    color:
+        #aeb5c7;
+
+    font-size:
+        .85rem;
+
+    font-style:
+        italic;
+}
+
+
+/* ============================
+   ANIMATIONS
+============================ */
+
+@keyframes hunt3Shake {
+
+    0%, 100% {
+        transform:
+            translateX(0);
+    }
+
+    25% {
+        transform:
+            translateX(-5px);
+    }
+
+    50% {
+        transform:
+            translateX(5px);
+    }
+
+    75% {
+        transform:
+            translateX(-3px);
+    }
+}
+
+@keyframes hunt3Reveal {
+
+    from {
+
+        opacity:
+            0;
+
+        transform:
+            translateY(12px);
+    }
+
+    to {
+
+        opacity:
+            1;
+
+        transform:
+            translateY(0);
+    }
+}
+
+
+/* ============================
+   MOBILE
+============================ */
+
+@media (max-width: 768px) {
+
+    #hunt3 {
+
+        padding:
+            10px;
+    }
+
+    .hunt3-card {
+
+        width:
+            95vw;
+
+        max-height:
+            95dvh;
+
+        padding:
+            26px 18px;
+    }
+
+    .hunt3-poem {
+
+        font-size:
+            1.05rem;
+
+        line-height:
+            1.65;
+    }
+}
+/* =========================================================
+   V2.0 — HUNT 4
+   THE GRAND LUCK TEST
+========================================================= */
+
+
+/* ============================
+   INTRO SCREEN
+============================ */
+
+#hunt4Intro,
+#hunt4Bottles {
+
+    min-height:
+        100dvh;
+
+    width:
+        100%;
+
+    padding:
+        12px;
+}
+
+
+/* ============================
+   INTRO CARD
+============================ */
+
+.hunt4-intro-card {
+
+    width:
+        min(700px, 95vw);
+
+    max-height:
+        94dvh;
+
+    overflow-y:
+        auto;
+
+    padding:
+        38px 28px;
+
+    box-sizing:
+        border-box;
+
+    text-align:
+        center;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(12,15,25,.96),
+            rgba(7,9,16,.98)
+        );
+
+    border:
+        1px solid
+        rgba(245,223,155,.18);
+
+    box-shadow:
+        0 24px 70px
+        rgba(0,0,0,.55),
+
+        inset 0 1px 1px
+        rgba(255,255,255,.06);
+
+    position:
+        relative;
+}
+
+
+/* ============================
+   PROGRESS
+============================ */
+
+.hunt4-progress {
+
+    display:
+        flex;
+
+    justify-content:
+        center;
+
+    gap:
+        10px;
+
+    margin-bottom:
+        26px;
+}
+
+.hunt4-dot {
+
+    width:
+        8px;
+
+    height:
+        8px;
+
+    border-radius:
+        50%;
+
+    background:
+        rgba(245,223,155,.14);
+
+    border:
+        1px solid
+        rgba(245,223,155,.28);
+
+    transition:
+        .35s ease;
+}
+
+.hunt4-dot.done,
+.hunt4-dot.active {
+
+    background:
+        #f5df9b;
+
+    box-shadow:
+        0 0 12px
+        rgba(245,223,155,.65);
+
+    transform:
+        scale(1.15);
+}
+
+
+/* ============================
+   INTRO TYPOGRAPHY
+============================ */
+
+.hunt4-eyebrow {
+
+    color:
+        #f5df9b;
+
+    font-size:
+        .68rem;
+
+    letter-spacing:
+        3.5px;
+
+    text-transform:
+        uppercase;
+
+    margin-bottom:
+        12px;
+}
+
+.hunt4-intro-card h1 {
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    font-size:
+        clamp(
+            2.1rem,
+            8vw,
+            3.6rem
+        );
+
+    line-height:
+        1.05;
+
+    letter-spacing:
+        2px;
+
+    color:
+        #f5df9b;
+
+    margin-bottom:
+        18px;
+}
+
+.hunt4-divider {
+
+    width:
+        80px;
+
+    height:
+        1px;
+
+    margin:
+        0 auto 25px;
+
+    background:
+        rgba(245,223,155,.55);
+
+    box-shadow:
+        0 0 12px
+        rgba(245,223,155,.3);
+}
+
+.hunt4-opening {
+
+    max-width:
+        560px;
+
+    margin:
+        0 auto 14px;
+
+    color:
+        #cbd1df;
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    font-size:
+        clamp(
+            1.02rem,
+            3.2vw,
+            1.2rem
+        );
+
+    line-height:
+        1.65;
+}
+
+.hunt4-emphasis {
+
+    color:
+        #f0e7d2;
+
+    font-size:
+        1.22rem;
+
+    margin-top:
+        20px;
+}
+
+.hunt4-gold {
+
+    color:
+        #f5df9b;
+
+    font-size:
+        clamp(
+            1.8rem,
+            6vw,
+            2.5rem
+        );
+
+    font-weight:
+        600;
+
+    letter-spacing:
+        3px;
+
+    margin:
+        22px auto;
+}
+
+.hunt4-warning {
+
+    margin:
+        25px auto 10px;
+
+    color:
+        #f5df9b;
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    font-size:
+        1.4rem;
+
+    letter-spacing:
+        1px;
+}
+
+.hunt4-final-warning {
+
+    margin:
+        25px auto;
+
+    color:
+        #fff;
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    font-size:
+        clamp(
+            1.5rem,
+            5vw,
+            2rem
+        );
+
+    font-weight:
+        700;
+
+    letter-spacing:
+        2px;
+
+    text-shadow:
+        0 0 15px
+        rgba(245,223,155,.3);
+}
+
+.hunt4-small-joke {
+
+    font-size:
+        .88rem;
+
+    color:
+        #969eae;
+
+    font-style:
+        italic;
+}
+
+
+/* ============================
+   BOTTLE SCREEN
+============================ */
+
+.hunt4-bottle-card {
+
+    width:
+        min(850px, 95vw);
+
+    height:
+        calc(100dvh - 24px);
+
+    min-height:
+        0;
+
+    max-height:
+        calc(100dvh - 24px);
+
+    padding:
+        30px 22px;
+
+    box-sizing:
+        border-box;
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    justify-content:
+        center;
+
+    align-items:
+        center;
+
+    text-align:
+        center;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(12,15,25,.94),
+            rgba(7,9,16,.97)
+        );
+
+    border:
+        1px solid
+        rgba(245,223,155,.16);
+
+    box-shadow:
+        0 24px 70px
+        rgba(0,0,0,.55),
+
+        inset 0 1px 1px
+        rgba(255,255,255,.06);
+}
+
+.hunt4-bottle-card h2 {
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    color:
+        #f5df9b;
+
+    font-size:
+        clamp(
+            2rem,
+            6vw,
+            3rem
+        );
+
+    margin-bottom:
+        6px;
+}
+
+.hunt4-bottle-subtitle {
+
+    color:
+        #adb5c8;
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    font-size:
+        1.05rem;
+
+    line-height:
+        1.5;
+
+    margin-bottom:
+        25px;
+}
+
+
+/* ============================
+   BOTTLE GRID
+============================ */
+
+.hunt4-bottle-grid {
+
+    width:
+        100%;
+
+    max-width:
+    420px;
+
+    display:
+        grid;
+
+    grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+    align-items:
+        end;
+
+    justify-content:
+        center;
+
+    gap:
+        clamp(10px, 3vw, 28px);
+
+    margin:
+        8px auto;
+}
+
+
+/* ============================
+   BOTTLE BUTTON
+============================ */
+
+.hunt4-bottle {
+
+    appearance:
+        none;
+
+    border:
+        none;
+
+    background:
+        transparent;
+
+    padding:
+        8px;
+
+    margin:
+        0;
+
+    min-height:
+        270px;
+
+    display:
+        flex;
+
+    align-items:
+        flex-end;
+
+    justify-content:
+        center;
+
+    cursor:
+        pointer;
+
+    box-shadow:
+        none;
+
+    border-radius:
+        0;
+
+    -webkit-tap-highlight-color:
+        transparent;
+
+    animation:
+        hunt4BottleFloat
+        4s ease-in-out infinite;
+}
+
+.hunt4-bottle:nth-of-type(2) {
+    animation-delay:
+        -.7s;
+}
+
+.hunt4-bottle:nth-of-type(3) {
+    animation-delay:
+        -1.4s;
+}
+
+.hunt4-bottle:nth-of-type(4) {
+    animation-delay:
+        -2.1s;
+}
+
+.hunt4-bottle-visual {
+
+    position:
+        relative;
+
+    width:
+        110px;
+
+    height:
+        245px;
+
+    display:
+        block;
+
+    transform-origin:
+        center bottom;
+
+    transition:
+        transform .35s ease,
+        filter .35s ease;
+}
+
+.hunt4-bottle:hover
+.hunt4-bottle-visual {
+
+    transform:
+        translateY(-7px)
+        scale(1.025);
+}
+
+.hunt4-bottle:focus,
+.hunt4-bottle:focus-visible {
+
+    outline:
+        none;
+
+    box-shadow:
+        0 0 0 2px
+        rgba(245,223,155,.4);
+}
+
+/* ============================
+   BOTTLE NECK + CORK
+============================ */
+
+.hunt4-bottle-cork {
+
+    position:
+        absolute;
+
+    top:
+        0;
+
+    left:
+        50%;
+
+    transform:
+        translateX(-50%);
+
+    width:
+        24px;
+
+    height:
+        15px;
+
+    z-index:
+        4;
+
+    border-radius:
+        3px 3px 2px 2px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #7d5b37,
+            #c5a26a,
+            #70502f
+        );
+
+    box-shadow:
+        0 2px 4px
+        rgba(0,0,0,.4);
+}
+
+
+.hunt4-bottle-neck {
+
+    position:
+        absolute;
+
+    top:
+        13px;
+
+    left:
+        50%;
+
+    transform:
+        translateX(-50%);
+
+    width:
+        30px;
+
+    height:
+        74px;
+
+    z-index:
+        2;
+
+    display:
+        block;
+
+    background:
+        linear-gradient(
+            90deg,
+            #252833,
+            #70778b 48%,
+            #252833
+        );
+
+    border-radius:
+        5px 5px 2px 2px;
+
+    box-shadow:
+        inset 3px 0 4px
+        rgba(255,255,255,.12),
+
+        inset -3px 0 4px
+        rgba(0,0,0,.45);
+}
+
+/* ============================
+   BOTTLE BODY
+============================ */
+
+.hunt4-bottle-body {
+
+    position:
+        absolute;
+
+    left:
+        50%;
+
+    top:
+        82px;
+
+    transform:
+        translateX(-50%);
+
+    width:
+        82px;
+
+    height:
+        155px;
+
+    z-index:
+        3;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    border-radius:
+        18px 18px 13px 13px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #171a22,
+            #596072 42%,
+            #252936 65%,
+            #101219
+        );
+
+    box-shadow:
+        inset 6px 0 8px
+        rgba(255,255,255,.10),
+
+        inset -8px 0 10px
+        rgba(0,0,0,.38),
+
+        0 12px 24px
+        rgba(0,0,0,.45);
+}
+
+.hunt4-bottle-body::before {
+
+    content:
+        "";
+
+    position:
+        absolute;
+
+    top:
+        10px;
+
+    left:
+        13px;
+
+    width:
+        8px;
+
+    height:
+        105px;
+
+    border-radius:
+        50%;
+
+    background:
+        rgba(255,255,255,.09);
+
+    filter:
+        blur(2px);
+}
+
+/* ============================
+   LABEL
+============================ */
+
+.hunt4-bottle-label {
+
+    width:
+        57px;
+
+    height:
+        75px;
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    justify-content:
+        center;
+
+    align-items:
+        center;
+
+    background:
+        linear-gradient(
+            145deg,
+            #f3e5bd,
+            #c9ad6b
+        );
+
+    color:
+        #302417;
+
+    border:
+        1px solid
+        rgba(255,255,255,.35);
+
+    box-shadow:
+        0 3px 8px
+        rgba(0,0,0,.28);
+}
+
+.hunt4-bottle-label small {
+
+    font-size:
+        .45rem;
+
+    letter-spacing:
+        1.5px;
+
+    margin-bottom:
+        5px;
+}
+
+.hunt4-bottle-label strong {
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    font-size:
+        1.8rem;
+}
+
+
+/* ============================
+   SELECTED / BROKEN STATES
+============================ */
+
+.hunt4-bottle.chosen {
+
+    animation:
+        hunt4BottleShake
+        .45s ease;
+}
+
+.hunt4-bottle.broken {
+
+    pointer-events:
+        none;
+
+    animation:
+        hunt4BottleBreak
+        .7s ease forwards;
+}
+
+.hunt4-bottle.disabled {
+
+    opacity:
+        .18;
+
+    pointer-events:
+        none;
+
+    filter:
+        grayscale(.7);
+}
+
+
+/* ============================
+   RESULT
+============================ */
+
+.hunt4-result {
+
+    width:
+        100%;
+
+    max-width:
+        560px;
+
+    margin:
+        22px auto 0;
+
+    animation:
+        hunt4Reveal
+        .7s ease;
+}
+
+.hunt4-result-icon {
+
+    font-size:
+        3rem;
+
+    margin-bottom:
+        8px;
+}
+
+.hunt4-result h2 {
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    color:
+        #f5df9b;
+
+    font-size:
+        clamp(
+            1.8rem,
+            6vw,
+            2.7rem
+        );
+
+    margin-bottom:
+        10px;
+}
+
+.hunt4-result p {
+
+    color:
+        #cdd3df;
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    font-size:
+        1.05rem;
+
+    line-height:
+        1.6;
+}
+
+.hunt4-prize-reveal {
+
+    margin:
+        24px auto 0;
+
+    padding:
+        18px;
+
+    border:
+        1px solid
+        rgba(245,223,155,.4);
+
+    background:
+        rgba(245,223,155,.06);
+
+    box-shadow:
+        0 0 30px
+        rgba(245,223,155,.12);
+
+    animation:
+        hunt4PrizeGlow
+        1.5s ease-in-out infinite alternate;
+}
+
+.hunt4-prize-small {
+
+    display:
+        block;
+
+    color:
+        #b9a975;
+
+    font-size:
+        .6rem;
+
+    letter-spacing:
+        3px;
+
+    margin-bottom:
+        8px;
+}
+
+#hunt4PrizeText {
+
+    display:
+        block;
+
+    color:
+        #f5df9b;
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    font-size:
+        clamp(
+            1.5rem,
+            5vw,
+            2.2rem
+        );
+}
+
+
+/* ============================
+   ANIMATIONS
+============================ */
+
+@keyframes hunt4BottleFloat {
+
+    0%, 100% {
+        transform:
+            translateY(0);
+    }
+
+    50% {
+        transform:
+            translateY(-5px);
+    }
+}
+
+@keyframes hunt4BottleShake {
+
+    0%, 100% {
+        transform:
+            translateX(0);
+    }
+
+    25% {
+        transform:
+            translateX(-5px);
+    }
+
+    50% {
+        transform:
+            translateX(5px);
+    }
+
+    75% {
+        transform:
+            translateX(-3px);
+    }
+}
+
+@keyframes hunt4BottleBreak {
+
+    0% {
+        transform:
+            scale(1)
+            rotate(0);
+
+        opacity:
+            1;
+
+        filter:
+            brightness(1);
+    }
+
+    35% {
+        transform:
+            scale(1.08)
+            rotate(-3deg);
+
+        filter:
+            brightness(1.8);
+    }
+
+    100% {
+        transform:
+            scale(.25)
+            rotate(18deg);
+
+        opacity:
+            0;
+
+        filter:
+            brightness(3);
+    }
+}
+
+@keyframes hunt4Reveal {
+
+    from {
+        opacity:
+            0;
+
+        transform:
+            translateY(15px);
+    }
+
+    to {
+        opacity:
+            1;
+
+        transform:
+            translateY(0);
+    }
+}
+
+@keyframes hunt4PrizeGlow {
+
+    from {
+        box-shadow:
+            0 0 18px
+            rgba(245,223,155,.08);
+    }
+
+    to {
+        box-shadow:
+            0 0 35px
+            rgba(245,223,155,.22);
+    }
+}
+
+
+/* ============================
+   MOBILE
+============================ */
+
+@media (max-width: 650px) {
+
+    .hunt4-intro-card {
+
+        padding:
+            28px 18px;
+    }
+
+.hunt4-bottle-card {
+
+    height:
+        calc(100dvh - 16px);
+
+    min-height:
+        0;
+
+    max-height:
+        calc(100dvh - 16px);
+
+    padding:
+        14px 12px;
+}
+
+.hunt4-bottle-grid {
+    width: 100%;
+    max-width: 360px;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    align-items: center;
+    justify-items: center;
+
+    column-gap: 8px;
+    row-gap: 4px;
+
+    margin: 4px auto;
+}
+
+.hunt4-bottle {
+    min-height:
+        190px;
+
+    width:
+        100%;
+
+    padding:
+        4px;
+}
+
+    .hunt4-bottle-body {
+
+        width:
+            68px;
+
+        height:
+            128px;
+    }
+
+    .hunt4-bottle-neck {
+
+        width:
+            25px;
+
+        height:
+            66px;
+    }
+
+    .hunt4-bottle-label {
+
+        width:
+            48px;
+
+        height:
+            62px;
+    }
+
+}
+/* =========================================================
+   HUNT 4 — REFINED INTRO TYPOGRAPHY
+========================================================= */
+
+#hunt4Intro .hunt4-intro-card {
+    padding: 30px 26px;
+}
+
+#hunt4Intro .hunt4-intro-card h1 {
+    font-size: clamp(1.8rem, 6vw, 2.9rem);
+    margin-bottom: 14px;
+}
+
+#hunt4Intro .hunt4-opening {
+    font-size: clamp(.92rem, 2.8vw, 1.08rem);
+    line-height: 1.5;
+    margin-bottom: 10px;
+}
+
+#hunt4Intro .hunt4-emphasis {
+    font-size: 1.08rem;
+    margin-top: 16px;
+}
+
+#hunt4Intro .hunt4-gold {
+    font-size: clamp(1.5rem, 5vw, 2.1rem);
+    margin: 16px auto;
+}
+
+#hunt4Intro .hunt4-warning {
+    font-size: 1.18rem;
+    margin: 18px auto 8px;
+}
+
+#hunt4Intro .hunt4-final-warning {
+    font-size: clamp(1.3rem, 4.5vw, 1.75rem);
+    margin: 18px auto;
+}
+
+#hunt4Intro .hunt4-small-joke {
+    font-size: .82rem;
+    line-height: 1.45;
+}
+/* ============================
+   HUNT 4 — SECRET CLUE
+============================ */
+.hunt4-secret-clue {
+    grid-column: 1 / -1;
+
+    width: 100%;
+    max-width: 330px;
+
+    margin: 0 auto;
+
+    font-size: .68rem;
+    line-height: 1.35;
+
+    text-align: center;
+
+    color: #969eae;
+
+    font-style: italic;
+}
+
+/* =========================================================
+   HUNT 4 — GRAND RESULT REACTIONS
+========================================================= */
+
+
+/* ============================
+   EMOJI INSIDE BROKEN BOTTLE
+============================ */
+
+.hunt4-bottle-reaction {
+
+    position:
+        absolute;
+
+    left:
+        50%;
+
+    top:
+        45%;
+
+    transform:
+        translate(-50%, -50%)
+        scale(.2);
+
+    z-index:
+        20;
+
+    font-size:
+        2.8rem;
+
+    pointer-events:
+        none;
+
+    animation:
+        hunt4BottleReaction
+        .8s
+        cubic-bezier(.2,1.4,.4,1)
+        forwards;
+}
+
+.hunt4-bottle-reaction.winner {
+
+    filter:
+        drop-shadow(
+            0 0 12px
+            rgba(245,223,155,.7)
+        );
+}
+
+.hunt4-bottle-reaction.loser {
+
+    filter:
+        drop-shadow(
+            0 0 10px
+            rgba(255,255,255,.3)
+        );
+}
+
+
+@keyframes hunt4BottleReaction {
+
+    0% {
+
+        opacity:
+            0;
+
+        transform:
+            translate(-50%, -50%)
+            scale(.2);
+    }
+
+    55% {
+
+        opacity:
+            1;
+
+        transform:
+            translate(-50%, -50%)
+            scale(1.25);
+    }
+
+    100% {
+
+        opacity:
+            1;
+
+        transform:
+            translate(-50%, -50%)
+            scale(1);
+    }
+}
+
+
+/* ============================
+   FALLING SCREEN EMOJIS
+============================ */
+
+.hunt4-reaction-layer {
+
+    position:
+        fixed;
+
+    inset:
+        0;
+
+    z-index:
+        9999;
+
+    pointer-events:
+        none;
+
+    overflow:
+        hidden;
+}
+
+
+.hunt4-reaction-piece {
+
+    position:
+        absolute;
+
+    top:
+        -60px;
+
+    font-size:
+        clamp(
+            1.5rem,
+            5vw,
+            2.8rem
+        );
+
+    opacity:
+        0;
+
+    animation:
+        hunt4EmojiFall
+        3s
+        ease-in
+        forwards;
+}
+
+
+@keyframes hunt4EmojiFall {
+
+    0% {
+
+        opacity:
+            0;
+
+        transform:
+            translateY(-60px)
+            rotate(0deg)
+            scale(.7);
+    }
+
+    10% {
+
+        opacity:
+            1;
+    }
+
+    70% {
+
+        opacity:
+            1;
+    }
+
+    100% {
+
+        opacity:
+            0;
+
+        transform:
+            translateY(110vh)
+            rotate(360deg)
+            scale(1.1);
+    }
+}
+
+
+/* ============================
+   GRAND RESULT PANEL
+============================ */
+
+#hunt4Result {
+
+    position:
+        fixed;
+
+    inset:
+        0;
+
+    z-index:
+        9998;
+
+    width:
+        100%;
+
+    height:
+        100%;
+
+    max-width:
+        none;
+
+    margin:
+        0;
+
+    padding:
+        24px;
+
+    box-sizing:
+        border-box;
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    text-align:
+        center;
+
+    background:
+        rgba(5,7,13,.84);
+
+    backdrop-filter:
+        blur(12px);
+
+    -webkit-backdrop-filter:
+        blur(12px);
+
+    animation:
+        hunt4GrandReveal
+        .75s
+        ease
+        forwards;
+}
+
+
+/*
+   The result itself gets a glass-card feeling
+   without creating another HTML element.
+*/
+
+#hunt4Result > * {
+
+    position:
+        relative;
+
+    z-index:
+        2;
+}
+
+
+#hunt4ResultIcon {
+
+    font-size:
+        clamp(
+            3rem,
+            12vw,
+            5.5rem
+        );
+
+    margin-bottom:
+        8px;
+
+    animation:
+        hunt4IconPop
+        .8s
+        cubic-bezier(.2,1.4,.4,1)
+        forwards;
+}
+
+
+#hunt4ResultTitle {
+
+    max-width:
+        650px;
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    font-size:
+        clamp(
+            2rem,
+            7vw,
+            3.6rem
+        );
+
+    line-height:
+        1.05;
+
+    color:
+        #f5df9b;
+
+    margin:
+        0 auto 14px;
+
+    letter-spacing:
+        1.5px;
+}
+
+
+#hunt4ResultText {
+
+    max-width:
+        560px;
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    font-size:
+        clamp(
+            1rem,
+            3vw,
+            1.25rem
+        );
+
+    line-height:
+        1.55;
+
+    color:
+        #d3d8e3;
+
+    margin:
+        0 auto;
+}
+
+
+/* ============================
+   PRIZE REVEAL
+============================ */
+
+#hunt4PrizeReveal {
+
+    width:
+        min(
+            520px,
+            90vw
+        );
+
+    margin:
+        25px auto 0;
+
+    padding:
+        20px;
+
+    box-sizing:
+        border-box;
+
+    border:
+        1px solid
+        rgba(245,223,155,.42);
+
+    background:
+        rgba(245,223,155,.07);
+
+    box-shadow:
+        0 0 45px
+        rgba(245,223,155,.14);
+
+    animation:
+        hunt4PrizeAppear
+        .8s
+        ease
+        forwards;
+}
+
+
+#hunt4PrizeText {
+
+    font-size:
+        clamp(
+            1.5rem,
+            6vw,
+            2.5rem
+        );
+}
+/* ============================
+   LODU CLAUSE
+============================ */
+
+.hunt4-lodu-clause {
+
+    width:
+        min(520px, 90vw);
+
+    margin:
+        20px auto 0;
+
+    padding:
+        18px 16px;
+
+    box-sizing:
+        border-box;
+
+    border:
+        1px solid
+        rgba(245,223,155,.28);
+
+    background:
+        rgba(245,223,155,.045);
+
+    text-align:
+        center;
+
+    animation:
+        hunt4LoduReveal
+        .7s
+        ease
+        forwards;
+}
+
+.hunt4-lodu-clause-title {
+
+    color:
+        #f5df9b;
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    font-size:
+        1.15rem;
+
+    font-weight:
+        600;
+
+    letter-spacing:
+        1.5px;
+
+    margin-bottom:
+        10px;
+}
+
+.hunt4-lodu-clause p {
+
+    color:
+        #cbd1df;
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    font-size:
+        .95rem;
+
+    line-height:
+        1.5;
+
+    margin:
+        8px auto;
+}
+
+.hunt4-lodu-clause-main {
+
+    color:
+        #f5df9b;
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    font-size:
+        1.25rem;
+
+    font-weight:
+        700;
+
+    letter-spacing:
+        1.5px;
+
+    margin:
+        14px auto;
+}
+
+.hunt4-lodu-accept {
+
+    margin-top:
+        14px;
+
+    padding:
+        10px 18px;
+
+    border:
+        1px solid
+        rgba(245,223,155,.35);
+
+    border-radius:
+        999px;
+
+    background:
+        rgba(245,223,155,.08);
+
+    color:
+        #f5df9b;
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    font-size:
+        .9rem;
+
+    cursor:
+        pointer;
+
+    transition:
+        .25s ease;
+}
+
+.hunt4-lodu-accept:hover {
+
+    transform:
+        translateY(-2px);
+
+    background:
+        rgba(245,223,155,.14);
+
+    box-shadow:
+        0 0 20px
+        rgba(245,223,155,.12);
+}
+
+.hunt4-lodu-accept:active {
+
+    transform:
+        scale(.97);
+}
+
+.hunt4-lodu-accept.accepted {
+
+    cursor:
+        default;
+
+    opacity:
+        .8;
+}
+
+@keyframes hunt4LoduReveal {
+
+    from {
+        opacity:
+            0;
+
+        transform:
+            translateY(12px);
+    }
+
+    to {
+        opacity:
+            1;
+
+        transform:
+            translateY(0);
+    }
+}
+
+/* ============================
+   WIN / LOSS DIFFERENCE
+============================ */
+
+.hunt4-result-win {
+
+    border:
+        1px solid
+        rgba(245,223,155,.12);
+}
+
+
+.hunt4-result-loss {
+
+    border:
+        1px solid
+        rgba(255,255,255,.08);
+}
+
+
+.hunt4-result-loss
+#hunt4ResultTitle {
+
+    color:
+        #e7d7d7;
+}
+
+
+@keyframes hunt4GrandReveal {
+
+    from {
+
+        opacity:
+            0;
+    }
+
+    to {
+
+        opacity:
+            1;
+    }
+}
+
+
+@keyframes hunt4IconPop {
+
+    0% {
+
+        opacity:
+            0;
+
+        transform:
+            scale(.25)
+            rotate(-12deg);
+    }
+
+    65% {
+
+        opacity:
+            1;
+
+        transform:
+            scale(1.15)
+            rotate(4deg);
+    }
+
+    100% {
+
+        opacity:
+            1;
+
+        transform:
+            scale(1)
+            rotate(0);
+    }
+}
+
+
+@keyframes hunt4PrizeAppear {
+
+    from {
+
+        opacity:
+            0;
+
+        transform:
+            translateY(18px)
+            scale(.95);
+    }
+
+    to {
+
+        opacity:
+            1;
+
+        transform:
+            translateY(0)
+            scale(1);
+    }
+}
+
+
+/* ============================
+   MOBILE
+============================ */
+
+@media (max-width: 650px) {
+
+    #hunt4Result {
+
+        padding:
+            18px;
+    }
+
+    #hunt4ResultTitle {
+
+        font-size:
+            clamp(
+                1.8rem,
+                9vw,
+                2.7rem
+            );
+    }
+
+    #hunt4ResultText {
+
+        font-size:
+            1rem;
+    }
+
+    #hunt4PrizeReveal {
+
+        padding:
+            16px;
+    }
+.hunt4-lodu-clause {
+    padding:
+        16px 12px;
+}
+
+.hunt4-lodu-clause-main {
+    font-size:
+        1.1rem;
+}
+}
+#hunt4Result[hidden] {
+    display: none !important;
+}
+
+/* =========================================================
+   V2.0 — CONSTELLATION → HUNT TRANSITION
+========================================================= */
+#huntTransition {
+
+    position: fixed;
+
+    inset: 0;
+
+    width: 100vw;
+    height: 100dvh;
+
+    min-height: 100dvh;
+
+    box-sizing: border-box;
+
+    margin: 0;
+    padding: 0;
+
+    background: #050608;
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+    z-index: 10000;
+}
+
+#huntTransition.active {
+
+    display: flex;
+}
+
+#huntTransition .hunt-transition-stage {
+
+    width: 100%;
+    max-width: 700px;
+
+    height: 100%;
+    min-height: 100dvh;
+
+    box-sizing: border-box;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    margin: 0 auto;
+
+    padding: 20px;
+
+}
+/* ============================
+   STAGE
+============================ */
+
+.hunt-transition-stage {
+
+    width: 100%;
+    max-width: 700px;
+
+    min-height: 100dvh;
+
+    box-sizing: border-box;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+    margin: 0 auto;
+
+    padding: 20px;
+}
+
+/* ============================
+   PANELS
+============================ */
+
+.hunt-transition-panel {
+
+    width:
+        100%;
+
+    max-width:
+        600px;
+
+    padding:
+        34px 24px;
+
+    box-sizing:
+        border-box;
+
+    animation:
+        huntTransitionReveal
+        .7s
+        ease
+        forwards;
+}
+
+.hunt-transition-panel[hidden] {
+    display:
+        none;
+}
+
+
+/* ============================
+   TYPOGRAPHY
+============================ */
+
+.hunt-transition-eyebrow {
+
+    color:
+        #f5df9b;
+
+    font-size:
+        .65rem;
+
+    letter-spacing:
+        3px;
+
+    text-transform:
+        uppercase;
+
+    margin:
+        0 0 18px;
+}
+
+.hunt-transition-panel h1 {
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    color:
+        #f5df9b;
+
+    font-size:
+        clamp(
+            2.2rem,
+            8vw,
+            3.5rem
+        );
+
+    line-height:
+        1.05;
+
+    letter-spacing:
+        1.5px;
+
+    margin:
+        0 0 24px;
+}
+
+.hunt-transition-panel h2 {
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    color:
+        #f5df9b;
+
+    font-size:
+        clamp(
+            1.7rem,
+            6vw,
+            2.6rem
+        );
+
+    line-height:
+        1.15;
+
+    margin:
+        0 0 20px;
+}
+
+.hunt-transition-panel p {
+
+    color:
+        #c2c8d5;
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    font-size:
+        1.05rem;
+
+    line-height:
+        1.6;
+
+    margin:
+        10px auto;
+}
+
+.hunt-transition-pause {
+
+    color:
+        #777f91 !important;
+
+    margin:
+        24px auto 12px !important;
+
+    letter-spacing:
+        4px;
+}
+
+.hunt-transition-emphasis {
+
+    color:
+        #f0e7d2 !important;
+
+    font-size:
+        1.3rem !important;
+
+    margin:
+        18px auto 28px !important;
+}
+
+.hunt-transition-question {
+
+    color:
+        #e1e4eb !important;
+
+    margin-bottom:
+        24px !important;
+}
+
+
+/* ============================
+   BUTTONS
+============================ */
+
+.hunt-transition-panel button {
+
+    appearance:
+        none;
+
+    border:
+        1px solid
+        rgba(245,223,155,.32);
+
+    border-radius:
+        999px;
+
+    background:
+        rgba(245,223,155,.06);
+
+    color:
+        #f5df9b;
+
+    padding:
+        12px 22px;
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    font-size:
+        .9rem;
+
+    letter-spacing:
+        1px;
+
+    cursor:
+        pointer;
+
+    transition:
+        .25s ease;
+}
+
+.hunt-transition-panel button:hover {
+
+    transform:
+        translateY(-2px);
+
+    background:
+        rgba(245,223,155,.12);
+
+    box-shadow:
+        0 0 24px
+        rgba(245,223,155,.12);
+}
+
+.hunt-transition-panel button:active {
+
+    transform:
+        scale(.97);
+}
+
+
+/* ============================
+   CHOICE BUTTONS
+============================ */
+
+.hunt-transition-options {
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    align-items:
+        center;
+
+    gap:
+        12px;
+
+    margin:
+        22px auto;
+}
+
+.hunt-transition-option {
+
+    width:
+        min(420px, 90vw);
+}
+
+.hunt-transition-response {
+
+    min-height:
+        54px;
+
+    color:
+        #f5df9b !important;
+
+    font-size:
+        1rem !important;
+
+    animation:
+        huntTransitionReveal
+        .5s
+        ease;
+}
+
+
+/* ============================
+   MAINTENANCE
+============================ */
+
+.hunt-transition-maintenance-text {
+
+    max-width:
+        500px;
+}
+
+.hunt-transition-maintenance-text strong {
+
+    color:
+        #f5df9b;
+}
+
+
+/* ============================
+   CHOCOLATE
+============================ */
+
+.hunt-transition-chocolate {
+
+    font-size:
+        clamp(
+            4rem,
+            18vw,
+            7rem
+        );
+
+    line-height:
+        1;
+
+    margin:
+        0 auto 20px;
+
+    animation:
+        huntTransitionChocolate
+        1.2s
+        ease-in-out
+        infinite;
+}
+
+.hunt-transition-chocolate-text {
+
+    color:
+        #f5df9b !important;
+
+    font-weight:
+        600;
+}
+
+.hunt-transition-small {
+
+    color:
+        #777f91 !important;
+
+    font-size:
+        .78rem !important;
+
+    font-style:
+        italic;
+}
+
+
+/* ============================
+   ANIMATIONS
+============================ */
+
+@keyframes huntTransitionReveal {
+
+    from {
+
+        opacity:
+            0;
+
+        transform:
+            translateY(18px);
+    }
+
+    to {
+
+        opacity:
+            1;
+
+        transform:
+            translateY(0);
+    }
+}
+
+@keyframes huntTransitionChocolate {
+
+    0%,
+    100% {
+
+        transform:
+            translateY(0)
+            rotate(-2deg);
+    }
+
+    50% {
+
+        transform:
+            translateY(-8px)
+            rotate(2deg);
+    }
+}
+
+
+/* ============================
+   MOBILE
+============================ */
+
+@media (max-width: 650px) {
+
+    #huntTransition {
+
+        padding:
+            14px;
+    }
+
+    .hunt-transition-stage {
+
+        min-height:
+            75vh;
+    }
+
+    .hunt-transition-panel {
+
+        padding:
+            26px 14px;
+    }
+
+    .hunt-transition-panel p {
+
+        font-size:
+            .98rem;
+    }
+
+    .hunt-transition-emphasis {
+
+        font-size:
+            1.18rem !important;
+    }
+
+}
+/* =========================================================
+   HUNT 1 → HUNT 2
+   NEXT QUESTION BUTTONS
+========================================================= */
+
+.hunt1-next-button {
+    display: block;
+    margin: 18px auto 0;
+    padding: 12px 22px;
+
+    border: 1px solid rgba(245, 223, 155, .65);
+    border-radius: 999px;
+
+    background: rgba(245, 223, 155, .08);
+    color: #f5df9b;
+
+    font-family: inherit;
+    font-size: .78rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+
+    cursor: pointer;
+
+    transition:
+        background .25s ease,
+        transform .25s ease,
+        box-shadow .25s ease;
+}
+
+.hunt1-next-button:hover {
+    background: rgba(245, 223, 155, .16);
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 0 18px rgba(245, 223, 155, .18);
+}
+
+.hunt1-next-button:active {
+    transform: translateY(0);
+}
+
+/* =========================================================
+   THE CHOMU ARCHIVES — FINAL ENDING
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   FINAL ENDING BASE
+   --------------------------------------------------------- */
+
+#finalEnding {
+    position: relative;
+
+    min-height: 100vh;
+    width: 100%;
+
+    overflow: hidden;
+
+    background: transparent;
+
+    color: #f7f1e8;
+}
+.final-phase {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    box-sizing: border-box;
+
+    padding: 40px 22px;
+    text-align: center;
+}
+
+.final-phase:not([hidden]) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#finalPreparationPhase,
+#finalChestPhase,
+#finalVideoPhase,
+#finalGoodbyePhase {
+    flex-direction: column;
+}
+.final-text-container {
+    width: min(720px, 90vw);
+
+    margin: 0 auto;
+
+    padding:
+        18px 16px;
+
+    box-sizing: border-box;
+
+    background: transparent;
+
+    border: none;
+
+    border-radius: 0;
+
+    box-shadow: none;
+
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
+#finalCreditText > p:first-child {
+    font-size:
+        clamp(1.25rem, 4.5vw, 1.75rem);
+
+    line-height:
+        1.3;
+
+    letter-spacing:
+        1px;
+
+    color:
+        #f1d79b;
+
+    margin-bottom:
+        24px;
+}
+
+/* ---------------------------------------------------------
+   SEQUENTIAL ENDING TEXT
+   --------------------------------------------------------- */
+.final-phase [data-final-line],
+.final-phase [data-goodbye-line],
+.final-phase [data-goodbye-final] {
+
+    opacity: 0;
+
+    transform:
+        translateY(12px);
+
+    transition:
+        opacity 1.15s ease,
+        transform 1.15s ease;
+
+    margin:
+        0 auto 13px;
+
+    max-width:
+        620px;
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    font-size:
+        clamp(0.95rem, 3vw, 1.18rem);
+
+    font-weight:
+        400;
+
+    line-height:
+        1.55;
+
+    letter-spacing:
+        0.15px;
+
+    color:
+        rgba(247, 241, 232, 0.88);
+}
+.final-phase [data-final-line]:nth-of-type(2),
+.final-phase [data-goodbye-line]:nth-of-type(2) {
+    font-size:
+        clamp(0.9rem, 2.8vw, 1.08rem);
+
+    font-style:
+        italic;
+
+    color:
+        rgba(247, 241, 232, 0.70);
+}
+
+.final-phase [data-final-line]:last-child,
+.final-phase [data-goodbye-final] {
+    color:
+        rgba(241, 215, 155, 0.82);
+}
+.final-phase [data-final-line].final-line-visible,
+.final-phase [data-goodbye-line].final-line-visible,
+.final-phase [data-goodbye-final].final-line-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+/* ---------------------------------------------------------
+   PREPARATION / KEY LOADING
+   --------------------------------------------------------- */
+
+#finalKeyLoader {
+    width: min(500px, 82vw);
+    margin: 28px auto 0;
+    text-align: center;
+}
+
+#finalKeyPercentage {
+    font-family: "Cormorant Garamond", serif;
+    font-size: clamp(2rem, 7vw, 3.2rem);
+    font-weight: 500;
+
+    letter-spacing: 3px;
+    color: #e8c982;
+
+    margin-bottom: 14px;
+}
+
+.final-progress-track {
+    width: 100%;
+    height: 4px;
+
+    border-radius: 999px;
+
+    background: rgba(255, 255, 255, 0.08);
+
+    overflow: hidden;
+}
+
+#finalProgressBar {
+    width: 0%;
+    height: 100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            #a88952,
+            #f3d58f
+        );
+
+    box-shadow:
+        0 0 15px rgba(243, 213, 143, 0.3);
+
+    transition: width 0.15s linear;
+}
+
+#finalLoadingMessage {
+    margin-top: 14px;
+    min-height: 25px;
+
+    font-family: "Cormorant Garamond", serif;
+    font-size: 0.95rem;
+    font-style: italic;
+
+    letter-spacing: 0.5px;
+
+    color: rgba(247, 241, 232, 0.68);
+
+    opacity: 0;
+
+    transition:
+        opacity 0.65s ease;
+}
+
+#finalLoadingMessage.final-loading-message-show {
+    opacity: 1;
+}
+#finalPreparationPhase .final-text-container {
+    padding-top: 24px;
+    padding-bottom: 24px;
+}
+
+#finalPreparationPhase [data-final-line] {
+    margin-bottom: 11px;
+}
+
+/* ---------------------------------------------------------
+   TREASURE CHEST — FINAL ARCHIVE
+   --------------------------------------------------------- */
+
+#finalChestScene {
+    position: relative;
+
+    width: min(380px, 86vw);
+    height: min(340px, 72vw);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    perspective: 900px;
+}
+
+
+/* =========================================================
+   CHEST BODY
+   ========================================================= */
+
+#finalChest {
+    position: relative;
+
+    width: min(310px, 76vw);
+    height: 190px;
+
+    margin-top: 55px;
+
+    border-radius:
+        8px 8px 20px 20px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #3b2012 0%,
+            #63361e 12%,
+            #774225 30%,
+            #5b301b 52%,
+            #754024 78%,
+            #422313 100%
+        );
+
+    border:
+        2px solid rgba(218,176,91,0.72);
+
+    box-shadow:
+        0 25px 60px rgba(0,0,0,0.68),
+        0 0 30px rgba(218,176,91,0.08),
+        inset 0 0 0 6px rgba(45,24,13,0.40),
+        inset 0 -18px 25px rgba(0,0,0,0.28);
+
+    transform-style:
+        preserve-3d;
+
+    transition:
+        box-shadow 0.8s ease;
+
+    overflow:
+        visible;
+}
+
+
+/* =========================================================
+   INNER CHEST BODY
+   ========================================================= */
+
+#finalChest .final-chest-body {
+    position: absolute;
+
+    inset: 0;
+
+    border-radius:
+        6px 6px 18px 18px;
+
+    background:
+        repeating-linear-gradient(
+            0deg,
+            rgba(255,255,255,0.025) 0,
+            rgba(255,255,255,0.025) 2px,
+            transparent 2px,
+            transparent 18px
+        ),
+        linear-gradient(
+            90deg,
+            #593019,
+            #784325 25%,
+            #4b2716 50%,
+            #714025 76%,
+            #4a2615
+        );
+
+    box-shadow:
+        inset 0 0 18px rgba(0,0,0,0.42);
+
+    pointer-events:
+        none;
+
+    z-index:
+        1;
+}
+
+
+/* GOLDEN FRONT FRAME */
+
+#finalChest .final-chest-body::before {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    border-radius:
+        6px 6px 18px 18px;
+
+    border:
+        8px solid rgba(177,122,42,0.68);
+
+    box-shadow:
+        inset 0 0 0 2px rgba(245,211,135,0.30);
+
+    pointer-events:
+        none;
+}
+
+
+/* FRONT LOCK */
+
+#finalChest .final-chest-body::after {
+    content: "";
+
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: 38px;
+    height: 46px;
+
+    transform:
+        translate(-50%, -50%);
+
+    border:
+        3px solid #d5a24b;
+
+    border-radius:
+        5px 5px 11px 11px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #f0ce78,
+            #9d6720 55%,
+            #d9ad5b
+        );
+
+    box-shadow:
+        0 3px 10px rgba(0,0,0,0.45),
+        inset 0 0 5px rgba(255,245,190,0.45);
+
+    z-index:
+        5;
+
+    pointer-events:
+        none;
+}
+
+
+/* =========================================================
+   TREASURE — INSIDE THE CHEST
+   ========================================================= */
+
+#finalChest .final-chest-glow {
+    position: absolute;
+
+    left: 10%;
+    right: 10%;
+
+    top: 6px;
+
+    height: 78px;
+
+    z-index:
+        2;
+
+    overflow:
+        hidden;
+
+    border-radius:
+        40% 40% 10px 10px;
+
+    background:
+        radial-gradient(
+            ellipse at 50% 75%,
+            rgba(246,204,102,0.32),
+            rgba(246,204,102,0.10) 45%,
+            transparent 72%
+        ),
+        radial-gradient(
+            circle at 20% 55%,
+            rgba(231,180,59,0.95) 0 7px,
+            rgba(231,180,59,0.38) 8px,
+            transparent 15px
+        ),
+        radial-gradient(
+            circle at 37% 38%,
+            rgba(66,175,196,0.92) 0 7px,
+            rgba(66,175,196,0.30) 8px,
+            transparent 15px
+        ),
+        radial-gradient(
+            circle at 51% 62%,
+            rgba(214,75,105,0.95) 0 8px,
+            rgba(214,75,105,0.28) 9px,
+            transparent 16px
+        ),
+        radial-gradient(
+            circle at 66% 40%,
+            rgba(123,80,214,0.95) 0 8px,
+            rgba(123,80,214,0.28) 9px,
+            transparent 16px
+        ),
+        radial-gradient(
+            circle at 82% 58%,
+            rgba(76,176,112,0.92) 0 7px,
+            rgba(76,176,112,0.26) 8px,
+            transparent 15px
+        );
+
+    opacity:
+        0.48;
+
+    filter:
+        drop-shadow(
+            0 0 6px rgba(245,205,110,0.20)
+        );
+
+    transition:
+        opacity 0.9s ease,
+        transform 0.9s ease,
+        filter 0.9s ease;
+
+    pointer-events:
+        none;
+}
+
+
+/* =========================================================
+   CURVED LID
+   ========================================================= */
+
+#finalChest .final-chest-lid {
+    position: absolute;
+
+    left: -1px;
+
+    top: -67px;
+
+    width: calc(100% + 2px);
+
+    height: 82px;
+
+    box-sizing:
+        border-box;
+
+    border:
+        2px solid rgba(218,176,91,0.78);
+
+    border-bottom:
+        8px solid rgba(179,123,43,0.82);
+
+    border-radius:
+        150px 150px 10px 10px /
+        70px 70px 10px 10px;
+
+    background:
+        repeating-linear-gradient(
+            0deg,
+            rgba(255,255,255,0.025) 0,
+            rgba(255,255,255,0.025) 3px,
+            transparent 3px,
+            transparent 17px
+        ),
+        linear-gradient(
+            90deg,
+            #472413,
+            #714025 20%,
+            #81472a 50%,
+            #714025 80%,
+            #422212
+        );
+
+    transform-origin:
+        bottom center;
+
+    transform-style:
+        preserve-3d;
+
+    transition:
+        transform 1.4s cubic-bezier(.2,.8,.2,1);
+
+    box-shadow:
+        0 -8px 18px rgba(0,0,0,0.34);
+
+    z-index:
+        6;
+}
+
+
+/* GOLD CENTRAL BAND ON LID */
+
+#finalChest .final-chest-lid::before {
+    content: "";
+
+    position: absolute;
+
+    left: 50%;
+    top: 0;
+
+    width: 30px;
+    height: 100%;
+
+    transform:
+        translateX(-50%);
+
+    background:
+        linear-gradient(
+            90deg,
+            #956125,
+            #f0c76d,
+            #a86e28
+        );
+
+    border-left:
+        2px solid rgba(247,211,123,0.75);
+
+    border-right:
+        2px solid rgba(247,211,123,0.75);
+
+    pointer-events:
+        none;
+}
+
+
+/* GOLD LID EDGE */
+
+#finalChest .final-chest-lid::after {
+    content: "";
+
+    position: absolute;
+
+    left: 7%;
+    right: 7%;
+
+    bottom: -9px;
+
+    height: 10px;
+
+    border-radius:
+        0 0 8px 8px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #9d6525,
+            #e8c16a 20%,
+            #a06a27 50%,
+            #e8c16a 80%,
+            #9d6525
+        );
+
+    box-shadow:
+        0 2px 7px rgba(0,0,0,0.38);
+}
+
+
+/* =========================================================
+   KEY
+   ========================================================= */
+
+#finalKey {
+    position: absolute;
+
+    left: 50%;
+
+    top: 7%;
+
+    z-index:
+        20;
+
+    font-size:
+        2.4rem;
+
+    opacity:
+        0;
+
+    transform:
+        translate(-50%, -50%)
+        scale(0.72)
+        rotate(-12deg);
+
+    transition:
+        opacity 0.5s ease,
+        transform 1.3s cubic-bezier(.2,.8,.2,1);
+
+    pointer-events:
+        none;
+
+    filter:
+        drop-shadow(
+            0 3px 7px rgba(0,0,0,0.45)
+        );
+}
+
+
+/* KEY APPEARS */
+
+#finalKey.final-key-visible {
+    opacity:
+        1;
+
+    transform:
+        translate(-50%, -50%)
+        scale(1)
+        rotate(-12deg);
+}
+
+
+/* KEY MOVES TO THE FRONT LOCK */
+
+#finalKey.final-key-moving {
+    transform:
+        translate(-50%, 126px)
+        scale(0.72)
+        rotate(4deg);
+
+    filter:
+        drop-shadow(
+            0 0 10px rgba(245,210,125,0.55)
+        );
+}
+
+
+/* =========================================================
+   UNLOCKING
+   ========================================================= */
+
+#finalChest.final-chest-unlocking {
+    box-shadow:
+        0 25px 60px rgba(0,0,0,0.68),
+        0 0 70px rgba(243,213,143,0.30),
+        0 0 20px rgba(243,213,143,0.18),
+        inset 0 0 0 6px rgba(45,24,13,0.40);
+}
+
+
+/* TREASURE LIGHTS UP */
+
+#finalChest.final-chest-unlocking .final-chest-glow {
+    opacity:
+        0.85;
+
+    filter:
+        drop-shadow(
+            0 0 13px rgba(245,205,110,0.42)
+        );
+}
+
+
+/* =========================================================
+   OPENING
+   ========================================================= */
+
+#finalChest.final-chest-open .final-chest-lid {
+    transform:
+        rotateX(105deg);
+}
+
+
+/* Treasure becomes brighter once open */
+
+#finalChest.final-chest-open .final-chest-glow {
+    opacity:
+        1;
+
+    transform:
+        translateY(-4px)
+        scale(1.03);
+
+    filter:
+        drop-shadow(
+            0 0 18px rgba(245,205,110,0.55)
+        );
+}
+
+/* ---------------------------------------------------------
+   FINAL SURPRISE PROMPT
+   --------------------------------------------------------- */
+
+#finalSurprisePrompt {
+    position: relative;
+
+    width: min(500px, 86vw);
+
+    margin-top: 34px;
+
+    padding:
+        26px 24px 28px;
+
+    box-sizing: border-box;
+
+    text-align: center;
+
+    opacity: 0;
+
+    transform:
+        translateY(18px)
+        scale(0.97);
+
+    transition:
+        opacity 0.9s ease,
+        transform 0.9s cubic-bezier(.2,.8,.2,1);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(34, 28, 24, 0.76),
+            rgba(12, 11, 14, 0.68)
+        );
+
+    border:
+        1px solid rgba(241, 215, 155, 0.18);
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 20px 55px rgba(0,0,0,0.38),
+        inset 0 0 30px rgba(255,255,255,0.015);
+
+    backdrop-filter:
+        blur(8px);
+
+    pointer-events: none;
+}
+
+#finalSurprisePrompt:not([hidden]) {
+    opacity: 1;
+
+    transform:
+        translateY(0)
+        scale(1);
+
+    pointer-events: auto;
+}
+
+#finalSurprisePrompt p {
+    margin: 0;
+}
+
+#finalSurprisePrompt p:first-child {
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    font-size:
+        clamp(1.25rem, 4.5vw, 1.75rem);
+
+    letter-spacing:
+        0.8px;
+
+    color:
+        rgba(247, 241, 232, 0.94);
+}
+
+#finalSurprisePrompt p:nth-child(2) {
+    margin-top: 7px;
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    font-size:
+        1rem;
+
+    font-style: italic;
+
+    letter-spacing:
+        1px;
+
+    color:
+        rgba(241, 215, 155, 0.72);
+}
+
+#finalOpenGiftButton {
+    margin-top: 22px;
+
+    min-width: 130px;
+
+    padding:
+        11px 26px;
+
+    border:
+        1px solid rgba(241, 215, 155, 0.55);
+
+    border-radius:
+        999px;
+
+    background:
+        rgba(241, 215, 155, 0.08);
+
+    color:
+        #f1d79b;
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    font-size:
+        0.95rem;
+
+    letter-spacing:
+        3px;
+
+    cursor: pointer;
+
+    transition:
+        background 0.3s ease,
+        box-shadow 0.3s ease,
+        transform 0.3s ease;
+}
+
+#finalOpenGiftButton:hover {
+    background:
+        rgba(241, 215, 155, 0.16);
+
+    box-shadow:
+        0 0 22px rgba(241, 215, 155, 0.18);
+
+    transform:
+        translateY(-2px);
+}
+
+#finalOpenGiftButton:active {
+    transform:
+        scale(0.96);
+}
+
+/* ---------------------------------------------------------
+   VIDEO
+   --------------------------------------------------------- */
+
+#finalVideoContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#finalBirthdayVideo {
+    display: block;
+
+    width: min(900px, 94vw);
+    max-height: 82vh;
+
+    margin: auto;
+
+    object-fit: contain;
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 20px 80px rgba(0,0,0,0.75),
+        0 0 45px rgba(255,215,150,0.08);
+}
+
+
+/* ---------------------------------------------------------
+   GOODBYE
+   --------------------------------------------------------- */
+
+#finalGoodbyePhase {
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(255,220,170,0.06),
+            transparent 48%
+        );
+
+    background-color:
+        transparent;
+}
+
+
+/* ---------------------------------------------------------
+   CHOMU ARCHIVES — CLOSING HEADER
+   --------------------------------------------------------- */
+
+.archive-closing-header {
+    position: absolute;
+
+    top: 7%;
+
+    left: 50%;
+
+    transform:
+        translateX(-50%);
+
+    width: min(720px, 90vw);
+
+    text-align: center;
+
+    pointer-events: none;
+
+    z-index: 5;
+
+    opacity: 0.92;
+}
+
+
+.archive-closing-title {
+    font-size: 0.78rem;
+
+    font-weight: 700;
+
+    letter-spacing: 0.24em;
+
+    text-indent: 0.24em;
+
+    color: rgba(255,255,255,0.78);
+
+    text-shadow:
+        0 1px 8px rgba(255,255,255,0.12),
+        0 0 18px rgba(235,205,150,0.12);
+}
+
+
+.archive-closing-subtitle {
+    margin-top: 7px;
+
+    font-size: 0.58rem;
+
+    font-weight: 500;
+
+    letter-spacing: 0.34em;
+
+    text-indent: 0.34em;
+
+    color: rgba(235,205,150,0.55);
+
+    text-shadow:
+        0 0 12px rgba(235,205,150,0.10);
+}
+
+
+/* ---------------------------------------------------------
+   SUBTLE ARCHIVAL FRAME
+   --------------------------------------------------------- */
+
+#finalGoodbyePhase::before {
+    content: "";
+
+    position: absolute;
+
+    left: 6vw;
+    right: 6vw;
+
+    top: 4vh;
+    bottom: 4vh;
+
+    border:
+        1px solid rgba(235,205,150,0.13);
+
+    pointer-events: none;
+
+    z-index: 1;
+
+    box-shadow:
+        inset 0 0 30px rgba(235,205,150,0.025);
+}
+
+
+/* Tiny corner accents */
+
+#finalGoodbyePhase::after {
+    content: "✦";
+
+    position: absolute;
+
+    left: 50%;
+
+    bottom: 5.2vh;
+
+    transform:
+        translateX(-50%);
+
+    font-size: 0.55rem;
+
+    color:
+        rgba(235,205,150,0.38);
+
+    text-shadow:
+        0 0 12px rgba(235,205,150,0.16);
+
+    pointer-events:
+        none;
+
+    z-index: 5;
+}
+
+/* ---------------------------------------------------------
+   GOODBYE — CINEMATIC PAGE SYSTEM
+   --------------------------------------------------------- */
+   
+#finalGoodbyeText {
+    position: relative;
+
+    width: min(720px, 90vw);
+
+    min-height: 58vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* Each goodbye page occupies the same visual space */
+
+.goodbye-page {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: 100%;
+
+    transform:
+        translate(-50%, -50%);
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    pointer-events: none;
+
+    transition:
+        opacity 1s ease,
+        visibility 1s ease;
+}
+
+
+/* Only the active page is visible */
+
+.goodbye-page.goodbye-page-active {
+    opacity: 1;
+
+    visibility: visible;
+
+    pointer-events: auto;
+}
+/* Final goodbye page needs a little extra breathing room */
+.goodbye-page:last-child.goodbye-page-active {
+    padding-top: 70px;
+    box-sizing: border-box;
+}
+
+.goodbye-page [data-goodbye-line] {
+    margin-bottom: 16px;
+
+    font-weight: 500;
+
+    letter-spacing: 0.015em;
+
+    text-shadow:
+        0 1px 10px rgba(255, 255, 255, 0.10),
+        0 0 18px rgba(235, 205, 150, 0.08);
+}
+/* ---------------------------------------------------------
+   GOODBYE — EMPHASIS
+   --------------------------------------------------------- */
+
+.goodbye-page strong,
+.goodbye-page em {
+    font-weight: 700;
+
+    text-shadow:
+        0 1px 8px rgba(255, 255, 255, 0.14),
+        0 0 20px rgba(235, 205, 150, 0.16);
+}
+
+
+/* Archive title */
+
+.goodbye-page .final-archive-title {
+    font-weight: 700;
+
+    letter-spacing: 0.08em;
+
+    text-shadow:
+        0 2px 12px rgba(255, 255, 255, 0.16),
+        0 0 24px rgba(235, 205, 150, 0.20),
+        0 0 45px rgba(235, 205, 150, 0.08);
+}
+
+
+/* Final birthday message */
+
+.goodbye-page .final-birthday-title {
+    font-weight: 700;
+
+    letter-spacing: 0.035em;
+
+    text-shadow:
+        0 2px 12px rgba(255, 255, 255, 0.18),
+        0 0 26px rgba(235, 205, 150, 0.22),
+        0 0 48px rgba(235, 205, 150, 0.08);
+}
+
+
+/* Final tiny signature */
+
+.goodbye-page [data-goodbye-final] {
+    font-weight: 500;
+
+    letter-spacing: 0.04em;
+
+    text-shadow:
+        0 1px 8px rgba(255, 255, 255, 0.12),
+        0 0 20px rgba(235, 205, 150, 0.10);
+}
+
+.goodbye-page [data-goodbye-line]:last-child {
+    margin-bottom: 0;
+}
+
+.final-archive-title {
+    font-family:
+        "Cormorant Garamond",
+        serif !important;
+
+    font-size:
+        clamp(1.9rem, 7vw, 3.4rem) !important;
+
+    font-weight:
+        600;
+
+    letter-spacing:
+        3px;
+
+    color:
+        #f1d79b;
+
+    text-shadow:
+        0 0 18px rgba(241,215,155,0.16),
+        0 0 40px rgba(241,215,155,0.06);
+
+    transform:
+        scale(0.96);
+}
+
+.final-archive-title.final-line-visible {
+    transform: scale(1);
+}
+
+.final-birthday-title {
+    font-family:
+        "Cormorant Garamond",
+        serif !important;
+
+    font-size:
+        clamp(1.8rem, 7vw, 3.2rem) !important;
+
+    letter-spacing:
+        2px;
+
+    color:
+        #f1d79b;
+
+    margin:
+        20px 0 28px;
+
+    transform:
+        scale(0.96);
+}
+
+.final-birthday-title.final-line-visible {
+    transform: scale(1);
+}
+
+.birthday-line {
+    color: #f1d79b;
+}
+
+
+/* ---------------------------------------------------------
+   MOBILE
+   --------------------------------------------------------- */
+
+@media (max-width: 600px) {
+
+    .final-phase {
+        padding:
+            24px 14px;
+    }
+
+    .final-phase [data-final-line],
+    .final-phase [data-goodbye-line],
+    .final-phase [data-goodbye-final] {
+        line-height: 1.65;
+    }
+
+    .final-progress-track {
+        height: 4px;
+    }
+}

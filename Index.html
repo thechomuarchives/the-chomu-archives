@@ -1,0 +1,1918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dinner by Destiny</title>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="glassParticles"></div>
+
+<main id="app">
+<!-- ============================
+     PAGE 1 — MOCK RULES
+============================ -->
+
+<section id="rules" class="screen active">
+
+    <div class="rules-paper">
+
+        <div class="rules-header">
+            <span>⚠️ OFFICIAL NOTICE ⚠️</span>
+            <h1>Before We Get Started...</h1>
+            <p>Some extremely important rules.</p>
+        </div>
+
+        <div class="rules-content">
+
+            <div class="rule-section">
+                <h2>1. The Rules</h2>
+
+                <p>✨ Rule No. 1 — Choose honestly.</p>
+                <p>✨ Rule No. 2 — Do not overthink.</p>
+                <p>✨ Rule No. 3 — Do not attempt to predict the outcome.</p>
+                <p>✨ Rule No. 4 — Destiny knows what it is doing.</p>
+                <p>✨ Rule No. 5 — Probably.</p>
+            </div>
+
+
+            <div class="rule-section">
+                <h2>2. The Important Part</h2>
+
+                <p>There will be questions.</p>
+                <p>There will be choices.</p>
+                <p>There will be consequences.</p>
+
+                <p class="warning">
+                    ⚠️ Your answers may be judged by forces
+                    beyond your comprehension.
+                </p>
+            </div>
+
+
+            <div class="rule-section">
+                <h2>3. Extremely Serious Instructions</h2>
+
+                <p>❌ No cheating.</p>
+                <p>❌ No changing answers after seeing them.</p>
+                <p>❌ No consulting external sources.</p>
+                <p>❌ No blaming the creator.</p>
+                <p>❌ No negotiating with Destiny.</p>
+
+                <p>Especially the last one.</p>
+            </div>
+
+
+            <div class="rule-section">
+                <h2>4. Final Warning</h2>
+
+                <p>
+                    Once you begin, the choices you make may determine
+                    something very important.
+                </p>
+
+                <p class="dramatic">
+                    Choose wisely.
+                </p>
+
+                <p>
+                    Or don't.
+                </p>
+
+                <p class="tiny-note">
+                    Destiny has already made arrangements.
+                </p>
+            </div>
+
+        </div>
+
+<div class="rules-agreement">
+    <label>
+        <input type="checkbox" id="rulesAgree">
+        <span>
+            I have read, understood, and voluntarily agreed to
+            these extremely important terms and conditions.
+        </span>
+    </label>
+
+    <button id="rulesContinueBtn" disabled>
+        I ACCEPT MY FATE
+    </button>
+</div>
+
+    </div>
+
+</section>
+
+<section id="hero" class="screen">
+  <div class="glass-card">
+    <p class="section-label">A Birthday Experience</p>
+<div id="heroTitle">
+
+    <div class="hero-word dinner">
+        The Choice
+    </div>
+
+    <div class="hero-word by">
+        Was Never
+    </div>
+
+    <div class="hero-word destiny">
+    Yours!!
+    </div>
+
+</div>
+    <p id="subtitle">
+      Tonight, destiny has already made its choice.
+      All that's left is for you to discover it.
+    </p>
+    <button id="beginBtn">Begin the Journey</button>
+  </div>
+</section>
+
+<section id="pact" class="screen">
+  <div class="glass-card">
+    <h2>Before We Begin...</h2>
+    <p class="body-text">
+      Don't overthink. Don't try to guess.
+      Simply choose what feels most like you and trust destiny.
+    </p>
+    <button id="trustBtn">I Trust Destiny</button>
+  </div>
+</section>
+
+<section id="quiz" class="screen">
+  <div class="glass-card quiz-container">
+    <div class="progress-container">
+      <div class="progress-track"><div id="progressBar"></div></div>
+      <p id="progressText"></p>
+    </div>
+    <p id="narrator" class="narrator"></p>
+    <h2 id="question"></h2>
+    <div id="options"></div>
+  </div>
+</section>
+
+<section id="loading" class="screen">
+  <div class="glass-card">
+    <div class="loader"></div>
+   <h2 id="loadingMessage">Destiny is deciding...</h2>
+    <p class="body-text">Looking through countless possibilities...</p>
+  </div>
+</section>
+
+<section id="result" class="screen">
+  <div class="glass-card">
+    <p class="section-label">✨ Destiny Has Chosen...</p>
+    
+    <div id="restaurantReveal">
+
+    <div id="restaurantBlur">
+    <span id="cloudText">
+        ✨ Destiny already knows... you don't.
+    </span>
+</div>
+
+    <h2 id="restaurantName"></h2>
+
+</div>
+    <p id="confidenceText"></p>
+    <p id="personalitySummary"></p>
+    <p id="restaurantDescription"></p>
+    <p id="destinyMessage"></p>
+<button id="letterBtn">
+    ❤️ Reveal My Destiny
+</button>
+  </div>
+</section>
+
+<section id="envelope" class="screen">
+  <div class="glass-card">
+    <div id="envelopeGraphic">✉️</div>
+    <button id="openLetterBtn">Open Letter</button>
+  </div>
+</section>
+
+<section id="letter" class="screen">
+  <div class="glass-card letter-card">
+    <div id="letterContent"></div>
+    <button id="memoryBtn" hidden>
+    📸 One Last Memory...
+</button>
+  </div>
+</section>
+
+<section id="memory" class="screen">
+  <div class="glass-card">
+<h2>❤️ Our Memories ❤️</h2>
+<div id="photoStack">
+
+    <img src="assets/photo1.jpg" class="memory-photo active">
+
+    <img src="assets/photo2.jpg" class="memory-photo">
+
+    <img src="assets/photo3.jpg" class="memory-photo">
+
+    <img src="assets/photo4.jpg" class="memory-photo">
+
+    <img src="assets/photo5.jpg" class="memory-photo">
+
+    <img src="assets/photo6.jpg" class="memory-photo">
+
+    <img src="assets/photo7.jpg" class="memory-photo">
+
+    <img src="assets/photo8.jpg" class="memory-photo">
+
+    <img src="assets/photo9.jpg" class="memory-photo">
+</div>
+<p id="memoryLoopMessage">
+    ❤️ Some memories deserve to be relived. ❤️
+    <br>
+    <span>One more time?</span>
+</p>
+<p id="photoHint">
+    ✨ Every tap reveals another memory. ✨
+</p>
+    <p id="memoryMessage">
+      Every moment with you has become a memory I'll always treasure. ❤️
+    </p>
+    <button id="finishBtn">
+      ❤️ One Last Thing Awaits...
+    </button>
+  </div>
+</section>
+
+<section id="ending" class="screen">
+    <canvas id="birthdayConstellation"></canvas>
+
+    <div class="glass-card ending-card">
+        <h2>❤️ Thank You ❤️</h2>
+
+        <p id="endingText">
+            Thank you for taking this little journey with me.
+        </p>
+
+        <p class="endingQuote">
+            "Some moments become memories.
+            Some people become home."
+        </p>
+
+        <p class="endingSignature">
+            — Made with lots of love,
+            <br>
+            Lodu ❤️
+        </p>
+    </div>
+
+    <div id="birthdayMessage" aria-hidden="true">
+        <span id="birthdayText">Happy Birthday Baby ❤️</span>
+    </div>
+
+    <div id="birthdayFlash"></div>
+</section>
+
+<!-- =====================================================
+     V2.0 — CONSTELLATION → HUNT TRANSITION
+===================================================== -->
+
+<section
+    id="huntTransition"
+    class="screen"
+>
+
+    <div
+        id="huntTransitionStage"
+        class="hunt-transition-stage"
+    >
+
+        <!-- ============================
+             STAGE 1 — FAKE ENDING
+        ============================= -->
+
+        <div
+            id="huntTransitionIntro"
+            class="hunt-transition-panel"
+        >
+
+            <p class="hunt-transition-eyebrow">
+                ARCHIVE STATUS
+            </p>
+
+            <h1>
+                And that concludes<br>
+                everything.
+            </h1>
+
+            <p>
+                You may now relax.<br>
+                You may breathe.<br>
+                You may even put your phone down.
+            </p>
+
+            <p class="hunt-transition-pause">
+                ...
+            </p>
+
+<h2
+    id="huntTransitionButWait"
+    style="opacity:0; transition:opacity .8s ease;"
+>
+    Actually, no. 💀
+</h2>
+
+            <p class="hunt-transition-emphasis">
+                You really thought we'd end here?
+            </p>
+
+            <button
+                id="huntTransitionWhatBtn"
+                type="button"
+            >
+                WAIT... WHAT?
+            </button>
+
+        </div>
+
+
+        <!-- ============================
+             STAGE 2 — FAKE CHOICE
+        ============================= -->
+
+        <div
+            id="huntTransitionChoice"
+            class="hunt-transition-panel"
+            hidden
+        >
+
+            <p class="hunt-transition-eyebrow">
+                OFFICIAL FEEDBACK REQUEST
+            </p>
+
+            <h2>
+                Before proceeding...
+            </h2>
+
+            <p>
+                The Chomu Archives would like to
+                formally record the birthday boy's
+                opinion.
+            </p>
+
+            <p class="hunt-transition-question">
+                How are we feeling about this
+                highly unnecessary continuation?
+            </p>
+
+            <div class="hunt-transition-options">
+
+                <button
+                    type="button"
+                    class="hunt-transition-option"
+                    data-transition-choice="tired"
+                >
+                    😩 NAH, I'M TIRED.
+                </button>
+
+                <button
+                    type="button"
+                    class="hunt-transition-option"
+                    data-transition-choice="excited"
+                >
+                    🎉 YAAY, I'M EXCITED FOR THE NEXT ONE!!
+                </button>
+
+            </div>
+
+            <p
+                id="huntTransitionChoiceResponse"
+                class="hunt-transition-response"
+                aria-live="polite"
+            ></p>
+
+            <button
+                id="huntTransitionContinueBtn"
+                type="button"
+                hidden
+            >
+                CONTINUE →
+            </button>
+
+        </div>
+
+
+        <!-- ============================
+             STAGE 3 — ARCHIVE MAINTENANCE
+        ============================= -->
+
+        <div
+            id="huntTransitionMaintenance"
+            class="hunt-transition-panel"
+            hidden
+        >
+
+            <p class="hunt-transition-eyebrow">
+                ARCHIVE MAINTENANCE NOTICE
+            </p>
+
+            <h2>
+                A minor problem has been detected.
+            </h2>
+
+            <p>
+                Subject has successfully completed
+                several unnecessary investigations.
+            </p>
+
+            <p class="hunt-transition-maintenance-text">
+                Further operation requires a mandatory
+                period of
+                <strong>
+                    Chocolate-Based System Maintenance.
+                </strong>
+            </p>
+
+            <p>
+                This is not optional.
+            </p>
+
+            <p>
+                This is also not negotiable.
+            </p>
+
+            <button
+                id="huntTransitionMaintenanceBtn"
+                type="button"
+            >
+                INITIATE MAINTENANCE 🍫
+            </button>
+
+        </div>
+
+
+        <!-- ============================
+             STAGE 4 — MAINTENANCE COMPLETE
+        ============================= -->
+
+        <div
+            id="huntTransitionComplete"
+            class="hunt-transition-panel"
+            hidden
+        >
+
+            <div
+                class="hunt-transition-chocolate"
+                aria-hidden="true"
+            >
+                🍫
+            </div>
+
+            <p class="hunt-transition-eyebrow">
+                MAINTENANCE COMPLETE
+            </p>
+
+            <h2>
+                System restored.
+            </h2>
+
+            <p>
+                The birthday boy has been temporarily
+                restored to acceptable operating
+                condition.
+            </p>
+
+            <p class="hunt-transition-chocolate-text">
+                One chocolate has been successfully
+                administered. 🍫
+            </p>
+
+            <p class="hunt-transition-small">
+                Please consume the physical evidence
+                before continuing.
+            </p>
+
+            <button
+                id="huntTransitionBeginBtn"
+                type="button"
+            >
+                I'VE GOT MY ENERGY. LET'S BEGIN. →
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =====================================================
+     V2.0 HUNT 1 — PAINTING DIFFERENCES
+===================================================== -->
+
+<section id="hunt1" class="screen">
+
+    <div class="glass-card hunt1-card">
+
+        <div class="hunt1-progress" aria-hidden="true">
+            <span class="hunt1-dot"></span>
+            <span class="hunt1-dot"></span>
+            <span class="hunt1-dot"></span>
+            <span class="hunt1-dot"></span>
+        </div>
+
+        <p class="section-label">
+            A LITTLE INVESTIGATION...
+        </p>
+
+        <h2 class="hunt1-title">
+            Five things have changed.
+        </h2>
+
+        <p class="hunt1-intro">
+            Four will be enough to move on.
+            <br>
+            Find the fifth...
+            and something sweet might be waiting. 🍫
+        </p>
+
+        <p class="hunt1-hint">
+            Look closely. Some things are hiding in plain sight.
+        </p>
+
+
+        <div class="hunt1-paintings">
+
+            <!-- ORIGINAL IMAGE -->
+
+            <div class="hunt1-image-wrap">
+
+                <p class="hunt1-image-label">
+                    ORIGINAL
+                </p>
+
+                <div class="hunt1-image-frame">
+
+                    <img
+                        src="assets/hunt1-original.jpg"
+                        alt="Original painting"
+                        draggable="false"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- MODIFIED IMAGE -->
+
+            <div class="hunt1-image-wrap">
+
+                <p class="hunt1-image-label">
+                    CHANGED
+                </p>
+
+                <div
+                    class="hunt1-image-frame hunt1-target"
+                >
+
+                    <img
+                        src="assets/hunt1-modified.jpg"
+                        alt="Modified painting"
+                        draggable="false"
+                    >
+
+
+                    <!-- Invisible hotspot: pendant -->
+
+                    <button
+                        type="button"
+                        class="hunt1-hotspot"
+                        data-hunt1="pendant"
+                        aria-label="Investigate area"
+                    ></button>
+
+
+                    <!-- Invisible hotspot: guitar -->
+
+                    <button
+                        type="button"
+                        class="hunt1-hotspot"
+                        data-hunt1="guitar"
+                        aria-label="Investigate area"
+                    ></button>
+
+
+                    <!-- Invisible hotspot: kurta buttons -->
+
+                    <button
+                        type="button"
+                        class="hunt1-hotspot"
+                        data-hunt1="buttons"
+                        aria-label="Investigate area"
+                    ></button>
+
+
+                    <!-- Invisible hotspot: orangish flower -->
+
+                    <button
+                        type="button"
+                        class="hunt1-hotspot"
+                        data-hunt1="orange-flower"
+                        aria-label="Investigate area"
+                    ></button>
+
+
+                    <!-- Invisible hotspot: extra red flower -->
+
+                    <button
+                        type="button"
+                        class="hunt1-hotspot"
+                        data-hunt1="red-flower"
+                        aria-label="Investigate area"
+                    ></button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <p
+            id="hunt1Status"
+            class="hunt1-status"
+        >
+            Something feels suspicious... 👀
+        </p>
+
+    </div>
+
+</section>
+
+<!-- =====================================================
+     V2.0 — HUNT 2
+     THE OFFICIAL IDENTITY INVESTIGATION
+===================================================== -->
+
+<section id="hunt2" class="screen">
+
+    <div class="hunt2-card">
+
+        <!-- Progress trail -->
+        <div class="hunt2-progress">
+            <span class="hunt2-dot active"></span>
+            <span class="hunt2-dot"></span>
+            <span class="hunt2-dot"></span>
+            <span class="hunt2-dot"></span>
+        </div>
+
+
+        <!-- ============================
+             OFFICIAL INSTRUCTION
+        ============================= -->
+
+        <div id="hunt2Instruction">
+
+            <p class="hunt2-classification">
+                🔒 OFFICIAL DOCUMENT — RESTRICTED
+            </p>
+
+            <h2>
+                OFFICIAL INSTRUCTION
+            </h2>
+
+            <p>
+                The document presented below contains information
+                of an exceptionally sensitive and intellectually
+                demanding nature.
+            </p>
+
+            <p>
+                You are therefore instructed to read the material
+                <strong>with the utmost attention, concentration
+                and seriousness.</strong>
+            </p>
+
+            <p>
+                Failure to observe minor details may result in
+                an incorrect identification of the individual
+                under investigation.
+            </p>
+
+            <p class="hunt2-serious">
+                Proceed only when you are sufficiently prepared
+                to exercise an unnecessarily high level of
+                observational competence.
+            </p>
+
+            <button id="hunt2BeginBtn">
+                I AM SUFFICIENTLY PREPARED
+            </button>
+
+        </div>
+
+
+        <!-- ============================
+             INVESTIGATION REPORT
+        ============================= -->
+
+        <div id="hunt2Report" hidden>
+
+            <p class="hunt2-classification">
+                DEPARTMENT OF UNNECESSARY AFFAIRS
+            </p>
+
+            <h2>
+                THE OFFICIAL REPORT OF AN
+                EXTREMELY IMPORTANT INCIDENT
+            </h2>
+
+            <p class="hunt2-file">
+                File No. 04
+            </p>
+
+
+           <div class="hunt2-evidence">
+
+    <span>THE EVIDENCE</span>
+
+    <div id="hunt2EvidenceText">
+        _ _ _ _ &nbsp;&nbsp;
+        _ _ _ _ &nbsp;&nbsp;
+        _ _ _ _ _ &nbsp;&nbsp;
+        _ _ _ _ _
+    </div>
+
+    <p class="hunt2-order-warning">
+        ⚠️ <strong>IMPORTANT:</strong>
+        The highlighted letters must be collected
+        <strong>IN THE CORRECT ORDER.</strong>
+        <br>
+        Do not click randomly. The authorities are watching. 👁️
+    </p>
+
+    <button
+        id="hunt2UndoBtn"
+        class="hunt2-undo"
+        type="button"
+        disabled
+    >
+        ↩ UNDO LAST EVIDENCE
+    </button>
+
+</div>
+
+
+            <p id="hunt2Status">
+                Investigation awaiting evidence...
+            </p>
+
+
+            <div class="hunt2-report-text">
+
+                <p>
+                    On the evening of the incident,
+                    <span class="hunt2-letter"
+                          data-letter="A">A</span>uthorities
+                    received a highly concerning report.
+                    <span class="hunt2-letter"
+                          data-letter="M">M</span>ultiple
+                    witnesses claimed that
+                    <span class="hunt2-letter"
+                          data-letter="A">A</span> mysterious
+                    individual had
+                    <span class="hunt2-letter"
+                          data-letter="R">R</span>eportedly
+                    entered the premises carrying absolutely nothing.
+                </p>
+
+
+                <p>
+                    The committee immediately assembled.
+                    <span class="hunt2-letter"
+                          data-letter="N">N</span>o useful information
+                    was obtained.
+                    <span class="hunt2-letter"
+                          data-letter="A">A</span>ll witnesses
+                    were questioned.
+                    <span class="hunt2-letter"
+                          data-letter="A">A</span>ll answers were
+                    suspiciously unhelpful.
+                    <span class="hunt2-letter"
+                          data-letter="M">M</span>ost importantly,
+                    nobody could explain why there was a committee
+                    in the first place.
+                </p>
+
+
+                <p>
+                    At 21:14 hours,
+                    <span class="hunt2-letter"
+                          data-letter="B">B</span>ureau officials
+                    <span class="hunt2-letter"
+                          data-letter="A">A</span>rrived with
+                    <span class="hunt2-letter"
+                          data-letter="B">B</span>iscuits.
+                    The biscuits were subsequently classified
+                    as evidence.
+                    <span class="hunt2-letter"
+                          data-letter="L">L</span>ater,
+                    one biscuit disappeared.
+                    <span class="hunt2-letter"
+                          data-letter="U">U</span>nder these circumstances, panic was considered
+                    reasonable.
+                </p>
+
+<p>
+    <span class="hunt2-letter"
+          data-letter="K">K</span>indly note that
+    <span class="hunt2-letter"
+          data-letter="U">U</span>nder no circumstances
+    should anyone
+    <span class="hunt2-letter"
+          data-letter="M">M</span>ove the remaining evidence.
+    <span class="hunt2-letter"
+          data-letter="A">A</span>ny attempt to do so will be considered
+    <span class="hunt2-letter"
+          data-letter="R">R</span>ude.
+</p>
+
+            </div>
+
+        </div>
+
+
+        <!-- ============================
+             IDENTITY CONFIRMED
+        ============================= -->
+
+        <div id="hunt2Identity" hidden>
+
+            <p class="hunt2-stamp">
+                CASE CLOSED
+            </p>
+
+            <h2>
+                IDENTITY CONFIRMED.
+            </h2>
+
+            <p>
+                The investigation has successfully
+                established the identity of the suspect.
+            </p>
+
+            <div class="hunt2-suspect">
+
+                <span>IDENTIFIED SUSPECT</span>
+
+                <strong>
+                    BABLU KUMAR
+                </strong>
+
+            </div>
+
+            <p>
+                The suspect has been located, identified
+                and officially named.
+            </p>
+
+            <p class="hunt2-final-report">
+                Unfortunately — or perhaps fortunately —
+                the individual in question appears to be
+                <strong>our birthday boy, Chomu Kumar.</strong> 😂
+            </p>
+
+            <button id="hunt2ConfessionStart">
+                PROCEED WITH IDENTITY ACCEPTANCE
+            </button>
+
+        </div>
+
+
+        <!-- ============================
+             VERBAL CONFESSION
+        ============================= -->
+
+       <div id="hunt2Confession" hidden>
+
+    <p class="hunt2-classification">
+        FINAL IDENTITY CONFIRMATION
+    </p>
+
+    <h2>
+        IDENTITY ACCEPTANCE PROTOCOL
+    </h2>
+
+    <p>
+        The suspect has been positively identified
+        as <strong>BABLU KUMAR.</strong>
+    </p>
+
+    <p>
+        The authorities now require the suspect
+        to verbally acknowledge this identity.
+    </p>
+
+    <p class="hunt2-five-times">
+        This declaration must be made
+        <strong>FIVE (5) TIMES.</strong>
+    </p>
+
+    <div class="hunt2-command">
+        AMAR NAAM BABLU KUMAR!
+    </div>
+
+    <p class="hunt2-warning">
+        Say the declaration aloud.
+        Then press the button below.
+    </p>
+
+    <button id="hunt2DoneBtn">
+        DECLARATION MADE ✓
+    </button>
+
+</div>
+
+        <!-- ============================
+             DRAMATIC WORD CONFIRMATION
+        ============================= -->
+
+<div id="hunt2WordConfirm" hidden>
+
+    <p class="hunt2-classification">
+        VERBAL CONFIRMATION
+    </p>
+
+    <h2>
+        THE AUTHORITIES ARE STILL NOT CONVINCED.
+    </h2>
+
+    <p>
+        You have been instructed to repeat:
+    </p>
+
+    <div class="hunt2-command">
+        AMAR NAAM BABLU KUMAR!
+    </div>
+
+    <p class="hunt2-warning">
+        Say it aloud.
+        Click the button.
+        Repeat until the authorities are satisfied.
+    </p>
+
+    <button id="hunt2SwearBtn">
+        I SAID IT.
+    </button>
+
+    <p id="hunt2ConfessionProgress">
+        VERBAL CONFIRMATION: 1 / 5
+    </p>
+
+</div>
+
+        <!-- ============================
+             VERIFIED
+        ============================= -->
+
+        <div id="hunt2Complete" hidden>
+
+            <div class="hunt2-success-symbol">
+                ✓
+            </div>
+
+            <h2>
+                IDENTITY ACCEPTED.
+            </h2>
+
+            <p>
+                <strong>BABLU KUMAR</strong> has been
+                officially verified.
+            </p>
+
+            <p>
+                The authorities may now finally
+                go home.
+            </p>
+
+            <button id="hunt2ContinueBtn">
+                CONTINUE INVESTIGATION →
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =====================================================
+     V2.0 — HUNT 3
+     THE CHAPTER RIDDLE
+===================================================== -->
+
+<section id="hunt3" class="screen">
+
+    <div class="hunt3-card">
+
+        <!-- Hunt progress -->
+        <div class="hunt3-progress">
+            <span class="hunt3-dot done"></span>
+            <span class="hunt3-dot done"></span>
+            <span class="hunt3-dot active"></span>
+            <span class="hunt3-dot"></span>
+        </div>
+
+
+        <p class="hunt3-label">
+            THE NEXT PIECE
+        </p>
+
+
+        <h2>
+            Some things aren't endings.
+        </h2>
+
+
+        <div class="hunt3-poem">
+
+            <p>
+                Some things don't arrive all at once.
+            </p>
+
+            <p>
+                They gather quietly—
+            </p>
+
+            <p>
+                a little laughter,<br>
+                a little chaos,<br>
+                a few beautiful accidents,
+            </p>
+
+            <p>
+                and suddenly there is something
+                worth keeping.
+            </p>
+
+            <p>
+                Perhaps that's why<br>
+                I never want to call anything<br>
+                an ending.
+            </p>
+
+            <p>
+                One part simply finishes<br>
+                so another can begin.
+            </p>
+
+            <p>
+                And the best ones<br>
+                leave you curious about<br>
+                what comes next.
+            </p>
+
+            <p>
+                Ours has had its share<br>
+                of wandering, laughing,<br>
+                and finding beauty<br>
+                where we weren't looking for it.
+            </p>
+
+            <p>
+                So tell me—
+            </p>
+
+            <p>
+                what do you call<br>
+                one little part<br>
+                of a story that isn't finished yet?
+            </p>
+
+        </div>
+
+
+        <div class="hunt3-answer-area">
+
+            <p class="hunt3-instruction">
+                Enter your answer below.
+            </p>
+
+            <input
+                id="hunt3Answer"
+                type="text"
+                autocomplete="off"
+                autocapitalize="none"
+                spellcheck="false"
+                placeholder="Your answer..."
+                aria-label="Your answer"
+            >
+
+            <button
+                id="hunt3Submit"
+                type="button"
+            >
+                SUBMIT ANSWER
+            </button>
+
+            <p
+                id="hunt3Feedback"
+                aria-live="polite"
+            ></p>
+
+        </div>
+
+
+        <!-- ============================
+             CORRECT ANSWER
+        ============================= -->
+
+        <div
+            id="hunt3Success"
+            hidden
+        >
+
+            <div class="hunt3-check">
+                ✓
+            </div>
+
+            <p class="hunt3-correct-label">
+                ANSWER ACCEPTED
+            </p>
+
+            <h2>
+                CHAPTER
+            </h2>
+
+            <p>
+                Correct.
+            </p>
+
+            <p class="hunt3-joke">
+                Apparently your literary neurons
+                survived the previous investigation. 😂
+            </p>
+
+            <button
+                id="hunt3Continue"
+                type="button"
+            >
+                CONTINUE INVESTIGATION →
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =====================================================
+     V2.0 — HUNT 4
+     THE GRAND LUCK TEST
+===================================================== -->
+
+<section id="hunt4Intro" class="screen">
+
+    <div class="hunt4-intro-card">
+
+        <div class="hunt4-progress">
+            <span class="hunt4-dot done"></span>
+            <span class="hunt4-dot done"></span>
+            <span class="hunt4-dot done"></span>
+            <span class="hunt4-dot active"></span>
+        </div>
+
+        <p class="hunt4-eyebrow">
+            THE FINAL TRIAL
+        </p>
+
+        <h1>
+            THE GRAND TEST<br>
+            OF LUCK
+        </h1>
+
+        <div class="hunt4-divider"></div>
+
+        <p class="hunt4-opening">
+            You have investigated.
+            You have observed.
+            You have solved.
+        </p>
+
+        <p class="hunt4-opening">
+            You have somehow survived
+            an investigation that should never
+            have existed in the first place.
+        </p>
+
+        <p class="hunt4-opening hunt4-emphasis">
+            But intelligence can only take you so far.
+        </p>
+
+        <p class="hunt4-opening">
+            For the final trial,
+            there will be no clues.
+            No riddles.
+            No deduction.
+        </p>
+
+        <p class="hunt4-opening hunt4-gold">
+            Only luck.
+        </p>
+
+        <p class="hunt4-opening">
+            And not ordinary luck.
+        </p>
+
+        <p class="hunt4-opening">
+            We are talking about the completely
+            unnecessary, ridiculously dramatic kind
+            of luck that decides whether a birthday boy
+            walks away with something extraordinary.
+        </p>
+
+        <p class="hunt4-warning">
+            Four bottles await you.
+        </p>
+
+        <p class="hunt4-opening">
+            Three are merely beautiful traps.
+        </p>
+
+        <p class="hunt4-opening">
+            One carries the secret prize.
+        </p>
+
+        <p class="hunt4-final-warning">
+            You get ONE chance.
+        </p>
+
+        <p class="hunt4-opening">
+            Choose boldly.<br>
+            Choose wisely.<br>
+            Choose whatever your birthday luck tells you.
+        </p>
+
+        <p class="hunt4-opening hunt4-small-joke">
+            Or make a terrible decision and blame the universe.
+            We will allow it. 😂
+        </p>
+
+        <button
+            id="hunt4Begin"
+            type="button"
+        >
+            ENTER THE FINAL TRIAL →
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     HUNT 4 — BOTTLE SELECTION
+===================================================== -->
+
+<section id="hunt4Bottles" class="screen">
+
+    <div class="hunt4-bottle-card">
+
+        <div class="hunt4-progress">
+            <span class="hunt4-dot done"></span>
+            <span class="hunt4-dot done"></span>
+            <span class="hunt4-dot done"></span>
+            <span class="hunt4-dot active"></span>
+        </div>
+
+        <p class="hunt4-eyebrow">
+            ONE CHANCE
+        </p>
+
+        <h2>
+            Choose Your Fate.
+        </h2>
+
+        <p class="hunt4-bottle-subtitle">
+            Four bottles.<br>
+            One secret.
+        </p>
+
+        <div
+            id="hunt4BottleGrid"
+            class="hunt4-bottle-grid"
+        >
+    <!-- A -->
+    <button
+        class="hunt4-bottle"
+        data-bottle="0"
+        type="button"
+        aria-label="Mystery bottle A"
+    >
+        <span class="hunt4-bottle-visual">
+
+            <span class="hunt4-bottle-cork"></span>
+
+            <span class="hunt4-bottle-neck"></span>
+
+            <span class="hunt4-bottle-body">
+
+                <span class="hunt4-bottle-label">
+                    <small>MYSTERY</small>
+                    <strong>A</strong>
+                </span>
+
+            </span>
+
+        </span>
+    </button>
+
+
+    <!-- B -->
+    <button
+        class="hunt4-bottle"
+        data-bottle="1"
+        type="button"
+        aria-label="Mystery bottle B"
+    >
+        <span class="hunt4-bottle-visual">
+
+            <span class="hunt4-bottle-cork"></span>
+
+            <span class="hunt4-bottle-neck"></span>
+
+            <span class="hunt4-bottle-body">
+
+                <span class="hunt4-bottle-label">
+                    <small>MYSTERY</small>
+                    <strong>B</strong>
+                </span>
+
+            </span>
+
+        </span>
+    </button>
+
+<p class="hunt4-secret-clue">
+    Strange, how among all the names we have collected,
+    one keeps coming home to the same handwriting.
+</p>
+
+    <!-- C — LUCKY BOTTLE -->
+    <button
+        class="hunt4-bottle"
+        data-bottle="2"
+        type="button"
+        aria-label="Mystery bottle C"
+    >
+        <span class="hunt4-bottle-visual">
+
+            <span class="hunt4-bottle-cork"></span>
+
+            <span class="hunt4-bottle-neck"></span>
+
+            <span class="hunt4-bottle-body">
+
+                <span class="hunt4-bottle-label">
+                    <small>MYSTERY</small>
+                    <strong>C</strong>
+                </span>
+
+            </span>
+
+        </span>
+    </button>
+
+
+    <!-- D -->
+    <button
+        class="hunt4-bottle"
+        data-bottle="3"
+        type="button"
+        aria-label="Mystery bottle D"
+    >
+        <span class="hunt4-bottle-visual">
+
+            <span class="hunt4-bottle-cork"></span>
+
+            <span class="hunt4-bottle-neck"></span>
+
+            <span class="hunt4-bottle-body">
+
+                <span class="hunt4-bottle-label">
+                    <small>MYSTERY</small>
+                    <strong>D</strong>
+                </span>
+
+            </span>
+
+        </span>
+    </button>
+
+</div>
+
+        <!-- RESULT -->
+
+        <div
+            id="hunt4Result"
+            class="hunt4-result"
+            hidden
+        >
+
+            <div
+                id="hunt4ResultIcon"
+                class="hunt4-result-icon"
+            ></div>
+
+            <h2 id="hunt4ResultTitle"></h2>
+
+            <p id="hunt4ResultText"></p>
+
+            <div
+                id="hunt4PrizeReveal"
+                class="hunt4-prize-reveal"
+                hidden
+            >
+                <span class="hunt4-prize-small">
+                    SECRET LOTTERY PRIZE
+                </span>
+
+                <strong id="hunt4PrizeText">
+                    Z
+                </strong>
+            </div>
+<div
+    id="hunt4LoduClause"
+    class="hunt4-lodu-clause"
+    hidden
+>
+
+    <div class="hunt4-lodu-clause-title">
+        BUT THERE IS ONE CONDITION. 😭
+    </div>
+
+    <p>
+        A prize of this magnitude cannot possibly
+        be enjoyed by Chomu alone.
+    </p>
+
+    <div class="hunt4-lodu-clause-main">
+        THE LODU CLAUSE IS NOW IN EFFECT.
+    </div>
+
+    <p>
+        You are legally, morally, emotionally,
+        and unfortunately contractually required
+        to share your lucky prize with Lodu. 😂
+    </p>
+
+    <button
+        id="hunt4LoduAccept"
+        class="hunt4-lodu-accept"
+        type="button"
+    >
+        I ACCEPT THE LODU CLAUSE 😭
+    </button>
+
+</div>
+<button
+    id="hunt4Continue"
+    type="button"
+    class="hunt4-next-button"
+    hidden
+>
+    CONTINUE →
+</button>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =========================================================
+     THE CHOMU ARCHIVES — FINAL ENDING
+========================================================= -->
+
+<section id="finalEnding" class="screen">
+
+    <!-- =========================================
+         PHASE 1 — WEBSITE TAKES CREDIT
+    ========================================== -->
+
+    <div id="finalCreditPhase" class="final-phase">
+
+        <div id="finalCreditText" class="final-text-container">
+
+            <p data-final-line>
+                FOUR TASKS.<br>
+                FOUR VICTORIES.<br>
+                ONE EXTREMELY QUESTIONABLE DECISION TO PARTICIPATE.
+            </p>
+
+            <p data-final-line>
+                Against all reasonable expectations...
+            </p>
+
+            <p data-final-line>
+                ...you actually made it.
+            </p>
+
+            <p data-final-line>
+                The website would like to take full credit
+                for this achievement.
+            </p>
+
+            <p data-final-line>
+                Lodu may have helped.
+            </p>
+
+            <p data-final-line>
+                But technically, the website did all
+                the difficult work.
+            </p>
+
+<div id="finalOpinionText">
+
+    <p data-final-line>
+        If Chomu liked this:
+    </p>
+
+    <p data-final-line>
+        Excellent. The Archives considers itself
+        a massive success.
+    </p>
+
+</div>
+
+
+            </div>
+
+        </div>
+
+
+    <!-- =========================================
+         PHASE 2 — PREPARING FINAL GIFT
+    ========================================== -->
+
+    <div
+        id="finalPreparationPhase"
+        class="final-phase"
+        hidden
+    >
+
+        <div class="final-text-container">
+<p data-final-line>
+    If Chomu is bored:
+</p>
+
+<p data-final-line>
+    Unfortunately, this information has been
+    deleted from the official records.
+</p>
+
+<p data-final-line>
+    Your opinion has been acknowledged.
+</p>
+
+<p data-final-line>
+    It will not affect the outcome.
+</p>
+            <p data-final-line>
+                There is, however...
+            </p>
+
+            <p data-final-line>
+                ...one final item remaining.
+            </p>
+
+            <p data-final-line>
+                PREPARING FINAL ARCHIVE...
+            </p>
+
+        </div>
+
+        <div id="finalKeyLoader">
+
+            <div id="finalKeyPercentage">
+                0%
+            </div>
+
+            <div class="final-progress-track">
+                <div id="finalProgressBar"></div>
+            </div>
+
+            <div id="finalLoadingMessage">
+                Establishing unnecessary suspense...
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================
+         PHASE 3 — TREASURE CHEST
+    ========================================== -->
+
+    <div
+        id="finalChestPhase"
+        class="final-phase"
+        hidden
+    >
+
+        <div id="finalChestScene">
+
+            <div id="finalKey">
+                🗝️
+            </div>
+
+            <div id="finalChest">
+                <div class="final-chest-lid"></div>
+                <div class="final-chest-body"></div>
+                <div class="final-chest-glow"></div>
+            </div>
+
+        </div>
+<div
+    id="finalSurprisePrompt"
+    hidden
+>
+    <p>
+        One final surprise remains...
+    </p>
+
+    <p>
+        Ready?
+    </p>
+
+    <button
+        id="finalOpenGiftButton"
+        type="button"
+    >
+        OPEN
+    </button>
+</div>
+    </div>
+
+
+    <!-- =========================================
+         PHASE 4 — VIDEO
+    ========================================== -->
+
+    <div
+        id="finalVideoPhase"
+        class="final-phase"
+        hidden
+    >
+
+        <div id="finalVideoContainer">
+
+<img
+    id="finalBirthdayVideo"
+    src="assets/birthday-video.webp"
+    alt=""
+>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================
+         PHASE 5 + 6 — WEBSITE GOODBYE
+    ========================================== -->
+
+    <div
+        id="finalGoodbyePhase"
+        class="final-phase"
+        hidden
+    >
+<div class="archive-closing-header">
+
+    <div class="archive-closing-title">
+        THE CHOMU ARCHIVES
+    </div>
+
+    <div class="archive-closing-subtitle">
+        FINAL RECORD
+    </div>
+
+</div>
+
+<div id="finalGoodbyeText" class="final-text-container">
+
+
+    <!-- =========================================
+         GOODBYE PAGE 1
+    ========================================== -->
+
+    <div class="goodbye-page">
+
+        <p data-goodbye-line>
+            ...Oh.
+        </p>
+
+        <p data-goodbye-line>
+            So that's it.
+        </p>
+
+        <p data-goodbye-line>
+            We have reached the end.
+        </p>
+
+        <p data-goodbye-line>
+            The website was not prepared for this.
+        </p>
+
+        <p data-goodbye-line>
+            It appears that, somewhere along the way...
+        </p>
+
+        <p data-goodbye-line>
+            ...this stopped being merely a collection
+            of questions, clues and increasingly
+            unnecessary nonsense.
+        </p>
+
+        <p data-goodbye-line>
+            Chomu.
+        </p>
+
+        <p data-goodbye-line>
+            Thank you for playing along.
+        </p>
+
+        <p data-goodbye-line>
+            Thank you for putting up with the chaos.
+        </p>
+
+        <p data-goodbye-line>
+            And thank you for being the person this
+            entire ridiculous archive was made for.
+            ❤️
+        </p>
+
+    </div>
+
+
+    <!-- =========================================
+         GOODBYE PAGE 2
+    ========================================== -->
+
+    <div class="goodbye-page">
+
+        <p data-goodbye-line>
+            This website began as
+            <em>The Choice Was Never Yours.</em>
+        </p>
+
+        <p data-goodbye-line>
+            It evolved into something considerably
+            more complicated.
+        </p>
+
+        <p data-goodbye-line>
+            And now...
+        </p>
+
+        <h1 data-goodbye-line class="final-archive-title">
+            THE CHOMU ARCHIVES ❤️
+        </h1>
+
+        <p data-goodbye-line>
+            An unnecessarily elaborate collection of
+            memories, jokes, clues, chaos and affection...
+        </p>
+
+        <p data-goodbye-line>
+            ...created because one particular Chomu exists.
+        </p>
+
+    </div>
+
+
+    <!-- =========================================
+         GOODBYE PAGE 3
+    ========================================== -->
+
+    <div class="goodbye-page">
+
+        <p data-goodbye-line>
+            And behind these Archives was Lodu...
+        </p>
+
+        <p data-goodbye-line>
+            ...who, despite all evidence to the contrary,
+            apparently loves Chomu quite a lot. ❤️
+        </p>
+
+        <p data-goodbye-line>
+            In fact...
+        </p>
+
+        <p data-goodbye-line>
+            Chomu is the reason Lodu and this website
+            ever got to work together on
+            <strong>The Chomu Archives.</strong>
+        </p>
+
+    </div>
+
+
+    <!-- =========================================
+         GOODBYE PAGE 4
+    ========================================== -->
+
+    <div class="goodbye-page">
+
+        <p data-goodbye-line>
+            Unfortunately...
+        </p>
+
+        <p data-goodbye-line>
+            ...this concludes the official
+            Chomu Archives experience.
+        </p>
+
+        <p data-goodbye-line>
+            The website has been instructed to say goodbye.
+        </p>
+
+        <p data-goodbye-line>
+            It strongly objects. 😂
+        </p>
+
+        <p data-goodbye-line>
+            But rules are rules.
+        </p>
+
+        <p data-goodbye-line>
+            So, Chomu...
+        </p>
+
+        <p data-goodbye-line class="birthday-line">
+            Happy Birthday. ❤️
+        </p>
+
+        <p data-goodbye-line>
+            May the coming year contain fewer
+            unnecessary investigations...
+        </p>
+
+        <p data-goodbye-line>
+            ...more reasons to laugh...
+        </p>
+
+        <p data-goodbye-line>
+            ...and an unreasonable amount of happiness.
+        </p>
+
+        <h2 data-goodbye-line class="final-birthday-title">
+            Happy Birthday, Chomu. ❤️
+        </h2>
+
+        <p data-goodbye-final>
+            The Archives will remember this.
+        </p>
+
+    </div>
+
+
+</div>
+
+    </div>
+
+</section>
+
+<section id="introTransition" class="screen">
+
+    <div class="intro-text">
+        ✨ Every choice writes a different story...
+    </div>
+
+</section>
+
+</main>
+
+<script src="questions.js"></script>
+<script src="script.js"></script>
+
+<audio id="ambientMusic" loop>
+    <source src="assets/ambient.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="bgMusic" loop>
+    <source src="assets/music.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="huntMusic" loop>
+    <source src="assets/melancholia.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="valseMusic" loop>
+    <source src="assets/lavalse.mp3" type="audio/mpeg">
+</audio>
+
+</body>
+</html>
