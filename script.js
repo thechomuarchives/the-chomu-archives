@@ -4258,7 +4258,7 @@ window.startHunt3FromMain = function () {
        ================================================
     */
 
-    const HUNT4_PRIZE = "Z";
+    const HUNT4_PRIZE = "The bottles should already have given you the HINT🤫";
 
 
     /*
